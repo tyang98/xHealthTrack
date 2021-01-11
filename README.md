@@ -5,4 +5,4 @@
 Ryan Mao- [@ryanwmao](https://github.com/ryanwmao) - rwm275@cornell.edu <br/>
 Tony Yang - [@tyang98](https://github.com/tyang98) - txy3@cornell.edu
 
-Project Link: [https://github.com/tyang98/media-rec](https://github.com/tyang98/media-rec)
+
