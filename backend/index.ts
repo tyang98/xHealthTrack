@@ -52,4 +52,17 @@ app.get('/self-check', async (_, resp) => {
     });
 });
 
+// type DatedWeight = {
+//   month: number;
+//   day: number;
+//   year: number;
+//   weight: number;
+// }
+
+// type User = {
+//   username: string;
+//   password: string;
+//   weights: DatedWeight[];
+// }
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
