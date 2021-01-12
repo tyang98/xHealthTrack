@@ -1,22 +1,55 @@
-import * as express from 'express';
+import express from 'express';
+import bodyParser from 'body-parser';
+import admin from 'firebase-admin';
+
+// Path to wherever you put your service-account.json
+const serviceAccount = require('../backend/service-account.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: '[firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com]',
+});
+
+const db = admin.firestore();
 
 const app = express();
+const port = 8080;
+app.use(bodyParser.json());
 
-app.get('/home', function (req, res) {
-  res.send('Welcome home!');
+app.get('/', (_, res) => res.send('Hello World!'));
+
+app.get('/self-check', async (_, resp) => {
+  const data = {
+    name: 'Hello World',
+    time: admin.firestore.FieldValue.serverTimestamp(),
+  };
+  console.log('Sending doc to DB.');
+  await db.collection('test').doc('random-id').set(data);
+  console.log('Doc recorded in DB');
+  const docRef = db.collection('test').doc('random-id');
+  console.log('Trying to obtain doc in DB.');
+  const docSnapshot = await docRef.get();
+  console.log(
+    `We obtained a doc with id ${docSnapshot.id}. It's content is logged below:`
+  );
+  console.log(docSnapshot.data());
+  console.log('Now we will try to remove it.');
+  await docRef.delete();
+  console.log('The document is deleted.');
+  console.log(
+    'After all these operations, the db should be empty. We check that.'
+  );
+  db.collection('test')
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.docs.length === 0) {
+        console.log('We passed the check. The page in browser should say OK.');
+        resp.status(200).send('OK.');
+      } else {
+        console.log('We failed the check. Please check your setup.');
+        resp.status(500).send('Something is messed up!');
+      }
+    });
 });
 
-// example using path parameters
-app.get('/users/:name/:lname', function (req, res) {
-  res.send('Hello ' + req.params.name + ' ' + req.params.lname);
-});
-
-// example using query parameters
-app.get('/users', function (req, res) {
-  res.send('Hello ' + req.query.name + ' ' + req.query.lname);
-});
-
-// tell express to listen for requests on port 8080
-app.listen(8080, function () {
-  console.log('server started');
-});
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
