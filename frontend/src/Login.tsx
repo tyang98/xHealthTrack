@@ -18,8 +18,8 @@ const Login = ({ callback }: LoginProp) => {
     }
 
     return (
-        <div>
-            <h1>Ez</h1>
+        <div className="Sections">
+            <h1>xHy0rinstyx</h1>
         </div>
     );
 }
