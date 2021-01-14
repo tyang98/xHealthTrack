@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, InputAdornment, IconButton} from '@material-ui/core';
-import './Login.css';
+import '../styles/Login.css';
+import Footer from './Footer';
 import background from 'frontend/src/images/img.png';
 import ScrollLock from 'react-scrolllock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -31,7 +32,7 @@ const Login = ({ callback }: LoginProps) => {
             <ScrollLock>
             <img src={background} alt={""} style={{ minHeight: '100%', minWidth: '100%', position: 'fixed', top: '0', left: '0', zIndex: -1 }} />
             </ScrollLock>
-            <div className="Wrapper" style={{ justifyContent: 'center'}}> 
+            <div className="Wrapper"  style={{ justifyContent: 'center'}}> 
                 <div className="Sections">
                     <h1>xhy0rinstyx</h1><br/>
                     <TextField
@@ -61,7 +62,7 @@ const Login = ({ callback }: LoginProps) => {
                         onChange={onChangePassword} /> <br/><br/>
                     <Button 
                         variant="contained"
-                        style={{width: '20%'}}
+                        style={{width: '25%'}}
                         color="primary"
                         onClick={() => {callback(email, password)}}
                     > Login
@@ -71,6 +72,7 @@ const Login = ({ callback }: LoginProps) => {
                     </Button>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
