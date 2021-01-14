@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/app';
 import Snackbar from '@material-ui/core/Snackbar';
+import Register from './Register';
 //import { useEffect } from 'react';
 
 const firebaseConfig = {
@@ -33,7 +34,7 @@ const Authentication = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
 
-  const signup = (email: string, password: string, firstName: string, lastName: string) => {
+  const register = (email: string, password: string, firstName: string, lastName: string) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCreds) => {
         if (userCreds !== null) {
@@ -97,8 +98,8 @@ const Authentication = () => {
   return (
     <div>
       <Switch>
-        <Route path="/signup">
-          <Redirect to="/" />
+        <Route path="/register">
+          <Register callback={register} />
         </Route>
         <Route path="/">
           <Login callback={login} />
