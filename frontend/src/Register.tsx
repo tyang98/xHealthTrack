@@ -52,89 +52,91 @@ const Register = ({ callback }: RegisterProps) => {
   }
 
   return (
-      <div className="Sections">
-          <h1>Register</h1>
-          <br />
-          <TextField
-              label="First Name"
-              value={firstName}
-              onChange={onChangeFirstName}
-              variant="outlined"
-              className="Section" />
-          <br /><br />
-          <TextField
-              label="Last Name"
-              value={lastName}
-              onChange={onChangeLastName}
-              variant="outlined"
-              className="Section" />
-          <br /><br />
-          <TextField
-              label="Email Address"
-              value={email}
-              onChange={onChangeEmail}
-              variant="outlined"
-              className="Section" />
-          <br /><br />
-          <TextField
-              label="Password"
-              value={password}
-              onChange={onChangePassword}
-              error={password.length > 0 && password.length < 7}
-              helperText={password.length > 0 && password.length < 7 ? "Password must be at least 7 characters" : ""}
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              InputProps={{ endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ) }}
-              className="Section" />
-          <br /><br />
-          <TextField
-              label="Confirm Password"
-              value={passwordRepeat}
-              onChange={onChangePasswordRepeat}
-              error={password !== passwordRepeat}
-              helperText={password !== passwordRepeat ? "Passwords do not match" : ""}
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              InputProps={{ endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              )}}
-              className="Section" />
-          <br /><br />
-          <Button
-              variant="contained"
-              className="LoginButton"
-              style={{width: '20%'}}
-              onClick={onRegister}
-              color="primary"
-          >
-              Register
-          </Button>
-          <br /> <br />
-          <Button color="secondary" href="/">Already have an account? Login</Button>
-          <Snackbar
-              message={message}
-              open={snackBarOpen}
-              autoHideDuration={5000}
-              onClose={() => setSnackBarOpen(false)}
-          />
+      <div className="Wrapper">
+        <div className="Sections">
+            <h1>Register</h1>
+            <br />
+            <TextField
+                label="First Name"
+                value={firstName}
+                onChange={onChangeFirstName}
+                variant="outlined"
+                className="Section" />
+            <br /><br />
+            <TextField
+                label="Last Name"
+                value={lastName}
+                onChange={onChangeLastName}
+                variant="outlined"
+                className="Section" />
+            <br /><br />
+            <TextField
+                label="Email Address"
+                value={email}
+                onChange={onChangeEmail}
+                variant="outlined"
+                className="Section" />
+            <br /><br />
+            <TextField
+                label="Password"
+                value={password}
+                onChange={onChangePassword}
+                error={password.length > 0 && password.length < 7}
+                helperText={password.length > 0 && password.length < 7 ? "Password must be at least 7 characters" : ""}
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                InputProps={{ endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ) }}
+                className="Section" />
+            <br /><br />
+            <TextField
+                label="Confirm Password"
+                value={passwordRepeat}
+                onChange={onChangePasswordRepeat}
+                error={password !== passwordRepeat}
+                helperText={password !== passwordRepeat ? "Passwords do not match" : ""}
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                InputProps={{ endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                )}}
+                className="Section" />
+            <br /><br />
+            <Button
+                variant="contained"
+                className="LoginButton"
+                style={{width: '20%'}}
+                onClick={onRegister}
+                color="primary"
+            >
+                Register
+            </Button>
+            <br /> <br />
+            <Button color="primary" href="/">Already have an account? Login</Button>
+            <Snackbar
+                message={message}
+                open={snackBarOpen}
+                autoHideDuration={5000}
+                onClose={() => setSnackBarOpen(false)}
+            />
+        </div>
       </div>
   );
 }
