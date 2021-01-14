@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { TextField, Button, InputAdornment, IconButton } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import background from 'frontend/src/images/img.png';
+import ScrollLock from 'react-scrolllock';
 import './Login.css';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -52,6 +54,10 @@ const Register = ({ callback }: RegisterProps) => {
   }
 
   return (
+    <div>
+       <ScrollLock>
+       <img src={background} alt={""} style={{ minHeight: '100%', minWidth: '100%', position: 'fixed', top: '0', left: '0', zIndex: -1 }} />
+       </ScrollLock>
       <div className="Wrapper">
         <div className="Sections">
             <h1>Register</h1>
@@ -138,6 +144,7 @@ const Register = ({ callback }: RegisterProps) => {
             />
         </div>
       </div>
+    </div>
   );
 }
 

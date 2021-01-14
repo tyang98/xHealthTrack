@@ -7,25 +7,15 @@
 }
 
 .Section {
-  width: 25%;
+  width: 35%;
 }
 
 .Wrapper {
-  margin-right: auto; 
-  margin-left:  auto; 
-  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
   max-width: 1000px;
-  padding-bottom: 50px;
+  padding-bottom: 25px;
   border-radius: 25px;
-  height:100%;
-  background-color:aliceblue;
-  border: 4px solid #3DA4FF; /* wack color ? */
-}
-
-.Background {
-  /*background-image: url(https://i1.wp.com/ithacavoice.com/wp-content/uploads/2016/06/Ithacahighschool-1.jpg?fit=1002%2C578&ssl=1);
-  /* url(./images/background.png); */
-  margin-top: 0px;
-  margin-bottom:0%;
-  background-color:black;
+  border: 4px solid #0049f4;
 }
