@@ -7,36 +7,15 @@
 }
 
 .Section {
-  width: 25%;
+  width: 35%;
 }
 
 .Wrapper {
-  margin-right: auto; 
-  margin-left:  auto; 
-  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
   max-width: 1000px;
-  padding-bottom: 50px;
+  padding-bottom: 25px;
   border-radius: 25px;
-  background-color:aliceblue;
-  border: 4px solid #3DA4FF; /* wack color ? */
-}
-
-.Background {
-  background-image: url(frontend/src/images/img.png);
-  /* url(./images/background.png); */
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 50px;
-}
-
-.Register-background {
-  background-image: url(https://wallpaperaccess.com/full/91909.jpg);
-  /* url(./images/background.png); */
-  background-position: 'center';
-  background-repeat: 'no-repeat';
-  background-size: 'cover';
-  padding-bottom: 100%; 
-  padding-top: 50px; 
+  border: 4px solid #0049f4;
 }
