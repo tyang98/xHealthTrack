@@ -22,7 +22,7 @@
 }
 
 .Background {
-  background-image: url(https://wallpaperaccess.com/full/91909.jpg);
+  background-image: url(frontend/src/images/img.png);
   /* url(./images/background.png); */
   height: 100%;
   background-position: center;
