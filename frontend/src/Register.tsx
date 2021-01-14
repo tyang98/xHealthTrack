@@ -52,6 +52,7 @@ const Register = ({ callback }: RegisterProps) => {
   }
 
   return (
+    <div className="Register-background">
       <div className="Wrapper">
         <div className="Sections">
             <h1>Register</h1>
@@ -138,6 +139,7 @@ const Register = ({ callback }: RegisterProps) => {
             />
         </div>
       </div>
+    </div>
   );
 }
 

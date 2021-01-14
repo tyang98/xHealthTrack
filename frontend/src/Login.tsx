@@ -6,22 +6,16 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 
 type LoginProps = {
-    // callback: (email: string, username: string, password: string) => void;
     callback: (email: string, password: string) => void;
 }
 
 
 const Login = ({ callback }: LoginProps) => {
-    // const [email, setEmail] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-    // const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //     setEmail(event.target.value);
-    // }
 
     const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEmail(event.target.value);
@@ -35,12 +29,7 @@ const Login = ({ callback }: LoginProps) => {
         <div className="Background">
             <div className="Wrapper">
                 <div className="Sections">
-                    <h1>xHy0rinstyx</h1><br/>
-                    {/* <TextField
-                        label="Email"
-                        className="Section"
-                        value={email}
-                        onChange={onChangeEmail} /> <br/> */}
+                    <h1>please change project name</h1><br/>
                     <TextField
                         label="Email"
                         className="Section"
