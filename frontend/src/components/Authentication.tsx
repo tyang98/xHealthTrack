@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
 import Login from './Login';
+//import Home from './Home';
+//import Fitness from './Fitness';
+//import Health from './Health';
+//import Sleep from './Sleep';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/app';
