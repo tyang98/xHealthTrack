@@ -7,7 +7,7 @@ import logo from 'frontend/src/logo.svg';
 
 const NavigationBar = () => {
   return (
-    <Navbar className="color-nav" variant="dark" expand="lg" sticky="top">
+    <Navbar className="color-nav" variant="light" expand="lg" sticky="top">
     <Navbar.Brand href="/">
       <Image src={logo} />
     </Navbar.Brand>
