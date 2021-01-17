@@ -13,7 +13,6 @@ const firebaseConfig = {
   apiKey: "AIzaSyDlnpgB1moM8CrTWNJSjKP2abpCA0ZGIo8",
   authDomain: "xhy0rinstyx.firebaseapp.com",
   projectId: "xhy0rinstyx",
-  databaseURL: "https://xhy0rinstyx.firebaseio.com",
   storageBucket: "xhy0rinstyx.appspot.com",
   messagingSenderId: "991064101408",
   appId: "1:991064101408:web:0ac09d8ff05dbcf89a2245",
