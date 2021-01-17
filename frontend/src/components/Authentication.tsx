@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
 import Login from './Login';
+import Home from './Home';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/app';
@@ -99,10 +100,10 @@ const Authentication = () => {
     <div>
       <Switch>
         <Route path="/register">
-          <Register callback={register} />
+          {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          <Login callback={login} />
+          {user ? <Home /> : <Login callback={login} />} 
         </Route>
       </Switch>
       <Snackbar
