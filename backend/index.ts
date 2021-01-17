@@ -8,14 +8,15 @@ const serviceAccount = require('../backend/service-account.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: '[firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com]',
+  databaseURL: 'firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com',
 });
 
 const db = admin.firestore();
 
 const app = express();
+app.use(bodyParser.json());
+const port = 8080;
 app.use(cors());
-app.use(express.json);
 //const port = 8080;
 
 type FirebaseUser = {
@@ -36,6 +37,8 @@ type User = FirebaseUser & {
 
 const usersCollection = db.collection('users');
 
+//app.get('/', (_, res) => res.send('Hello World!'));
+
 app.post('/createUser', async (req, res) => {
   const { uid, firstName, lastName } = req.body;
   const firebaseUser = {
@@ -46,7 +49,8 @@ app.post('/createUser', async (req, res) => {
   res.send(uid);
 });
 
-app.get('/getUser/', async (req, res) => {
+//get user by uid
+app.get('/getUser', async (req, res) => {
   const uid = req.query.uid as string;
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
@@ -54,5 +58,18 @@ app.get('/getUser/', async (req, res) => {
 });
 
 
-app.listen(process.env.PORT || 8080, () => console.log('Server started!'));
+//get all users
+app.get('/getUsers', async (_, res) => {
+  const allUsersDoc = await usersCollection.get();
+  const users: User[] = [];
+  for (let doc of allUsersDoc.docs) {
+    let user: User= doc.data() as User;
+    user.uid = doc.id;
+    users.push(user);
+  }
+  res.send(users);
+});
+
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
