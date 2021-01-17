@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import 'firebase/auth';
 import Login from './Login';
-//import Home from './Home';
-//import Fitness from './Fitness';
-//import Health from './Health';
-//import Sleep from './Sleep';
+import Home from './Home';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/app';
@@ -16,7 +13,6 @@ const firebaseConfig = {
   apiKey: "AIzaSyDlnpgB1moM8CrTWNJSjKP2abpCA0ZGIo8",
   authDomain: "xhy0rinstyx.firebaseapp.com",
   projectId: "xhy0rinstyx",
-  databaseURL: "https://xhy0rinstyx.firebaseio.com",
   storageBucket: "xhy0rinstyx.appspot.com",
   messagingSenderId: "991064101408",
   appId: "1:991064101408:web:0ac09d8ff05dbcf89a2245",
@@ -40,9 +36,9 @@ const Authentication = () => {
 
   const register = (email: string, password: string, firstName: string, lastName: string) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCreds) => {
-        if (userCreds !== null) {
-          const user = userCreds.user;
+      .then((userInfo) => {
+        if (userInfo !== null) {
+          const user = userInfo.user;
           const uid = user?.uid;
           axios.post('/createUser', { uid, firstName, lastName })
             .then(async (res) => {
@@ -72,13 +68,12 @@ const Authentication = () => {
 
   const login = (email: string, password: string) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(async (userCreds) => {
-        if (userCreds !== null) {
-          const uid = userCreds.user?.uid;
+      .then(async (userInfo) => {
+        if (userInfo !== null) {
+          const uid = userInfo.user?.uid;
           const user = await axios.get<User>(`/getUser?uid=${uid}`);
           setUser(user.data);
         }
-
       })
       .catch((error) => {
         console.log(error.message);
@@ -103,10 +98,10 @@ const Authentication = () => {
     <div>
       <Switch>
         <Route path="/register">
-          <Register callback={register} />
+          {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          <Login callback={login} />
+          {user ? <Home /> : <Login callback={login} />} 
         </Route>
       </Switch>
       <Snackbar

@@ -46,7 +46,7 @@ const Login = ({ callback }: LoginProps) => {
                         label="Password"
                         className="Section"
                         value={password}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         variant="outlined"
                         InputProps={{ endAdornment: (
                             <InputAdornment position="end">

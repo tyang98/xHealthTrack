@@ -1,68 +1,75 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import admin from 'firebase-admin';
+import cors from 'cors';
 
 // Path to wherever you put your service-account.json
 const serviceAccount = require('../backend/service-account.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: '[firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com]',
+  databaseURL: 'firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com',
 });
 
 const db = admin.firestore();
 
 const app = express();
-const port = 8080;
 app.use(bodyParser.json());
+const port = 8080;
+app.use(cors());
+//const port = 8080;
 
-app.get('/', (_, res) => res.send('Hello World!'));
+type FirebaseUser = {
+  firstName: string;
+  lastName: string;
+}
 
-app.get('/self-check', async (_, resp) => {
-  const data = {
-    name: 'Hello World',
-    time: admin.firestore.FieldValue.serverTimestamp(),
-  };
-  console.log('Sending doc to DB.');
-  await db.collection('test').doc('random-id').set(data);
-  console.log('Doc recorded in DB');
-  const docRef = db.collection('test').doc('random-id');
-  console.log('Trying to obtain doc in DB.');
-  const docSnapshot = await docRef.get();
-  console.log(
-    `We obtained a doc with id ${docSnapshot.id}. It's content is logged below:`
-  );
-  console.log(docSnapshot.data());
-  console.log('Now we will try to remove it.');
-  await docRef.delete();
-  console.log('The document is deleted.');
-  console.log(
-    'After all these operations, the db should be empty. We check that.'
-  );
-  db.collection('test')
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.docs.length === 0) {
-        console.log('We passed the check. The page in browser should say OK.');
-        resp.status(200).send('OK.');
-      } else {
-        console.log('We failed the check. Please check your setup.');
-        resp.status(500).send('Something is messed up!');
-      }
-    });
+type DatedWeight = {
+  month: number;
+  day: number;
+  year: number;
+  weight: number;
+}
+
+type User = FirebaseUser & {
+  uid: string;
+}
+
+const usersCollection = db.collection('users');
+
+//app.get('/', (_, res) => res.send('Hello World!'));
+
+app.post('/createUser', async (req, res) => {
+  const { uid, firstName, lastName } = req.body;
+  const firebaseUser = {
+      firstName: firstName,
+      lastName: lastName
+  }
+  await usersCollection.doc(uid as string).set(firebaseUser);
+  res.send(uid);
 });
 
-// type DatedWeight = {
-//   month: number;
-//   day: number;
-//   year: number;
-//   weight: number;
-// }
+//get user by uid
+app.get('/getUser', async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  res.send({ ...user, uid });
+});
 
-// type User = {
-//   username: string;
-//   password: string;
-//   weights: DatedWeight[];
-// }
+
+//get all users
+app.get('/getUsers', async (_, res) => {
+  const allUsersDoc = await usersCollection.get();
+  const users: User[] = [];
+  for (let doc of allUsersDoc.docs) {
+    let user: User= doc.data() as User;
+    user.uid = doc.id;
+    users.push(user);
+  }
+  res.send(users);
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
