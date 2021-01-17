@@ -36,9 +36,9 @@ const Authentication = () => {
 
   const register = (email: string, password: string, firstName: string, lastName: string) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCreds) => {
-        if (userCreds !== null) {
-          const user = userCreds.user;
+      .then((userInfo) => {
+        if (userInfo !== null) {
+          const user = userInfo.user;
           const uid = user?.uid;
           axios.post('/createUser', { uid, firstName, lastName })
             .then(async (res) => {
@@ -68,13 +68,12 @@ const Authentication = () => {
 
   const login = (email: string, password: string) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(async (userCreds) => {
-        if (userCreds !== null) {
-          const uid = userCreds.user?.uid;
+      .then(async (userInfo) => {
+        if (userInfo !== null) {
+          const uid = userInfo.user?.uid;
           const user = await axios.get<User>(`/getUser?uid=${uid}`);
           setUser(user.data);
         }
-
       })
       .catch((error) => {
         console.log(error.message);

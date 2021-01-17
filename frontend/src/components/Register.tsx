@@ -50,6 +50,10 @@ const Register = ({ callback }: RegisterProps) => {
           setSnackBarOpen(true);
       }
       else if (password === passwordRepeat) {
+          console.log(email);
+          console.log(password);
+          console.log(firstName);
+          console.log(lastName);
           callback(email, password, firstName, lastName);
       }
   }
