@@ -3,6 +3,7 @@ import { TextField, Button, InputAdornment, IconButton} from '@material-ui/core'
 import '../styles/Login.css';
 import Footer from './Footer';
 import background from 'frontend/src/images/img.png';
+import logo from 'frontend/src/images/logo.png';
 import ScrollLock from 'react-scrolllock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
@@ -34,7 +35,7 @@ const Login = ({ callback }: LoginProps) => {
             </ScrollLock>
             <div className="Wrapper"  style={{ justifyContent: 'center'}}> 
                 <div className="Sections">
-                    <h1>xhy0rinstyx</h1><br/>
+                <img src={logo} alt={""} style={{ display: 'block', alignContent: 'center', margin: 'auto', opacity: 1}}/>
                     <TextField
                         label="Email"
                         className="Section"

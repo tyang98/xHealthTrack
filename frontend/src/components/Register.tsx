@@ -62,9 +62,8 @@ const Register = ({ callback }: RegisterProps) => {
     <div>
        <img src={background} alt={""} style={{ minHeight: '100%', minWidth: '100%', position: 'fixed', top: '0', left: '0', zIndex: -1 }} />
       <div className="Wrapper">
+      <h1 className="Padding">Register</h1>
         <div className="Sections">
-            <h1>Register</h1>
-            <br />
             <TextField
                 label="First Name"
                 value={firstName}

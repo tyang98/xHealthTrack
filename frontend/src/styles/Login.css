@@ -10,10 +10,15 @@
   width: 35%;
 }
 
+.Padding {
+  margin-top: 10px;
+  text-align: center;
+}
+
 .Wrapper {
   margin-right: auto;
   margin-left: auto;
-  margin-top: 50px;
+  margin-top: 20px;
   max-width: 1000px;
   padding-bottom: 25px;
   border-radius: 25px;
