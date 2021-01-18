@@ -25,14 +25,19 @@ type FirebaseUser = {
 }
 
 type DatedWeight = {
-  month: number;
-  day: number;
-  year: number;
-  weight: number;
+  date: Date
+  weight: number
+}
+
+type DatedSleep = {
+  date: Date
+  sleep: number
 }
 
 type User = FirebaseUser & {
   uid: string;
+  weights: DatedWeight[]
+  sleep: DatedSleep[]
 }
 
 const usersCollection = db.collection('users');
@@ -70,6 +75,13 @@ app.get('/getUsers', async (_, res) => {
   res.send(users);
 });
 
+// call with the same user with arrays updated
+app.post('/newEntry', async (req, res) => {
+  const uid = req.query.uid as string;
+  const newUser = req.body;
+  const userDoc = await usersCollection.doc(uid).update(newUser);
+  res.send('Updated');
+})
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
 

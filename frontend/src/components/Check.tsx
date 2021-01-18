@@ -5,14 +5,19 @@ import ScrollLock from 'react-scrolllock';
 
 
 type CheckProps = {
-    callback: (weight: number, date: Date) => void;
+    callback: (weight: number, sleep: number, date: Date) => void;
 }
 
 const Check = ({ callback }: CheckProps) => {
     const [weight, setWeight] = useState(+'');
+    const [sleep, setSleep] = useState(+'');
 
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setWeight(+event.target.value);
+    }
+
+    const onChangeSleep = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setSleep(+event.target.value);
     }
 
     const onSubmit = () => {
@@ -27,7 +32,7 @@ const Check = ({ callback }: CheckProps) => {
         // else if (password === passwordRepeat) {
         //     callback(weight, new Date());
         // }
-        callback(weight, new Date());
+        callback(weight, sleep, new Date());
     }
 
     return (
@@ -46,6 +51,13 @@ const Check = ({ callback }: CheckProps) => {
                         value={weight}
                         variant="outlined"
                         onChange={onChangeWeight} /> <br/> <br/>
+                    <TextField
+                        label="Sleep today"
+                        className="Section"
+                        type="text"
+                        value={sleep}
+                        variant="outlined"
+                        onChange={onChangeSleep} /> <br/> <br/>
 {/* add more stuff */}
                     <Button 
                         variant="contained"
