@@ -1,4 +1,4 @@
-# xHy0rinstyx
+# xHealthTrack
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg)
 
