@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'firebase/auth';
 import Login from './Login';
 import Home from './Home';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect} from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/app';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -30,8 +30,23 @@ type User = {
 const Authentication = () => {
 
   const [user, setUser] = useState<User | null>(null);
-  const [message, setMessage] = useState('');
+  const [msg, setMsg] = useState('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
+
+  // const onAuthStateChanged = () => {
+  //   return firebase.auth().onAuthStateChanged(async (currentUser) => {
+  //     if (currentUser !== null) {
+  //       const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
+  //       console.log(user.data.firstName);
+  //       setUser(user.data);
+  //     }
+  //     else {
+  //       setUser(null);
+  //     }
+  //   });
+  // }
+
+  // useEffect(() => onAuthStateChanged(), []);
 
 
   const register = (email: string, password: string, firstName: string, lastName: string) => {
@@ -54,16 +69,29 @@ const Authentication = () => {
         console.log(error.code);
         switch (error.code) {
           case ('auth/email-already-in-use'):
-            setMessage('Account with this email address already exists!');
+            setMsg('Account with this email address already exists!');
             break;
           case ('auth/invalid-email'):
-            setMessage('Please enter a valid email!');
+            setMsg('Please enter a valid email!');
             break;
           default:
-            setMessage('Sign up unsuccessful!');
+            setMsg('Sign up unsuccessful!');
         }
         setSnackBarOpen(true);
       });
+  }
+
+  const signout = () => {
+    firebase.auth().signOut().then(() => {
+      setUser(null);
+      setMsg('Log Out Successful');
+      setSnackBarOpen(true);
+    }).catch((error) => {
+      setMsg('Log Out failed');
+      console.log(error);
+      setSnackBarOpen(true);
+    });
+
   }
 
   const login = (email: string, password: string) => {
@@ -79,16 +107,16 @@ const Authentication = () => {
         console.log(error.message);
         switch (error.code) {
           case ('auth/invalid-email'):
-            setMessage('Please enter a valid email!');
+            setMsg('Please enter a valid email!');
             break;
           case ('auth/user-not-found'):
-            setMessage('Invalid email or password!');
+            setMsg('Invalid email or password!');
             break;
           case ('auth/wrong-password'):
-            setMessage('Invalid email or password!');
+            setMsg('Invalid email or password!');
             break;
           default:
-            setMessage('Log in unsuccessful!');
+            setMsg('Log in unsuccessful!');
         }
         setSnackBarOpen(true);
       });
@@ -105,7 +133,7 @@ const Authentication = () => {
         </Route>
       </Switch>
       <Snackbar
-        message={message}
+        message={msg}
         open={snackBarOpen}
         autoHideDuration={5000}
         onClose={() => setSnackBarOpen(false)}
