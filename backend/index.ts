@@ -8,7 +8,7 @@ const serviceAccount = require('../backend/service-account.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'firebase-adminsdk-ypaas@xhy0rinstyx.iam.gserviceaccount.com',
+  databaseURL: 'firebase-adminsdk-nxhji@xhealtht.iam.gserviceaccount.com',
 });
 
 const db = admin.firestore();
