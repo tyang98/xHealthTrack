@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import "bootstrap/dist/css/bootstrap.css";
 import ScrollLock from 'react-scrolllock';
 import NavigationBar from './NavigationBar';
 import Footer from './Footer';
 import background from 'frontend/src/images/img.png';
-import "bootstrap/dist/css/bootstrap.css";
 
-const Home = () => {
+
+
+type HomeProps = {
+  callback: () => void;
+}
+
+const Home = ( { callback }: HomeProps) => {
   
   return (
     <div className="home">
-      <NavigationBar />
+      <NavigationBar callback={callback}/>
       <ScrollLock>
       <img src={background} alt={""} style={{ minHeight: '100%', minWidth: '100%', position: 'fixed', top: '0', left: '0', zIndex: -1 }} />
       </ScrollLock>

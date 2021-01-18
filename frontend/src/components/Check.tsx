@@ -4,11 +4,11 @@ import background from 'frontend/src/images/img.png';
 import ScrollLock from 'react-scrolllock';
 
 
-type checkProps = {
+type CheckProps = {
     callback: (weight: number, date: Date) => void;
 }
 
-const Check = ({ callback }: checkProps) => {
+const Check = ({ callback }: CheckProps) => {
     const [weight, setWeight] = useState(+'');
 
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
