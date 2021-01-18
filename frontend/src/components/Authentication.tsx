@@ -81,6 +81,19 @@ const Authentication = () => {
       });
   }
 
+  const signout = () => {
+    firebase.auth().signOut().then(() => {
+      setUser(null);
+      setMsg('Log Out Successful');
+      setSnackBarOpen(true);
+    }).catch((error) => {
+      setMsg('Log Out failed');
+      console.log(error);
+      setSnackBarOpen(true);
+    });
+
+  }
+
   const login = (email: string, password: string) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(async (userInfo) => {
