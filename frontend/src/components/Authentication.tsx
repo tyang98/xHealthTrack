@@ -10,13 +10,13 @@ import Register from './Register';
 //import { useEffect } from 'react';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDlnpgB1moM8CrTWNJSjKP2abpCA0ZGIo8",
-  authDomain: "xhy0rinstyx.firebaseapp.com",
-  projectId: "xhy0rinstyx",
-  storageBucket: "xhy0rinstyx.appspot.com",
-  messagingSenderId: "991064101408",
-  appId: "1:991064101408:web:0ac09d8ff05dbcf89a2245",
-  measurementId: "G-M72EDTMTTP"
+  apiKey: "AIzaSyCvd7tj-9eane2m_2h6pNd4Zc0oMr7SbbA",
+  authDomain: "xhealtht.firebaseapp.com",
+  projectId: "xhealtht",
+  storageBucket: "xhealtht.appspot.com",
+  messagingSenderId: "900496555033",
+  appId: "1:900496555033:web:902ade7c44c8bb9d903e88",
+  measurementId: "G-MMKMN9ET53"
 };
 
 firebase.initializeApp(firebaseConfig);
