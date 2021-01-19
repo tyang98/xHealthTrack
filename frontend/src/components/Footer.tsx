@@ -6,7 +6,7 @@ const Footer = () => {
     <footer>
     Built from scratch with React, TypeScript, HTML5, and CSS3.
     <br /> 
-    &copy; xhy0rinstyx {new Date().getFullYear()}
+    &copy; xHealthTrack {new Date().getFullYear()}
   </footer>
   )
 }

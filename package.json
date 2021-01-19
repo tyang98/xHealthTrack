@@ -1,5 +1,5 @@
 {
-  "name": "xHy0rinstyx",
+  "name": "xHealthTrack",
   "private": true,
   "scripts": {
     "heroku-postbuild": "yarn workspaces run build"
