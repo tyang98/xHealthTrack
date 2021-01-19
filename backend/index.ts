@@ -85,17 +85,20 @@ app.put("/removeDailyEntries", async (req, res) => {
   const uid = req.query.uid as string;
   const date = new Date();
   const userDoc = await usersCollection.doc(uid).get();
-  const user = userDoc.data() as User;
-  let infoArr = user.info;
+  const user = userDoc.data() as FirebaseUser;
+  const infoArr = user.info;
   let index = infoArr.length;
+  
 
   for (let i = 0; i < infoArr.length; i++) {
-    if (infoArr[i].date.getDay() === date.getDay()) {
+    let currentDate = infoArr[i].date.toDate();
+    if (currentDate.getFullYear() === date.getFullYear() &&
+    currentDate.getMonth() === date.getMonth() &&
+    currentDate.getDate() === date.getDate()) {
       index = i;
       break;
     }
   }
-
   const updatedArr = infoArr.slice(0, index);
   const updateInfo = { info: updatedArr };
   await usersCollection
@@ -123,33 +126,6 @@ app.get("/getUsers", async (_, res) => {
     users.push(user);
   }
   res.send(users);
-});
-
-app.put("/removeDailyEntries", async (req, res) => {
-  const uid = req.query.uid as string;
-  const date = new Date();
-  const userDoc = await usersCollection.doc(uid).get();
-  const user = userDoc.data() as FirebaseUser;
-  const infoArr = user.info;
-  let index = infoArr.length;
-  
-
-  for (let i = 0; i < infoArr.length; i++) {
-    let currentDate = infoArr[i].date.toDate();
-    if (currentDate.getFullYear() === date.getFullYear() &&
-    currentDate.getMonth() === date.getMonth() &&
-    currentDate.getDate() === date.getDate()) {
-      index = i;
-      break;
-    }
-  }
-  const updatedArr = infoArr.slice(0, index);
-  const updateInfo = { info: updatedArr };
-  await usersCollection
-    .doc(uid)
-    .update(updateInfo)
-    .catch((error) => console.log(error));
-  res.send("Removed!");
 });
 
 
