@@ -46,8 +46,8 @@ const Home = ({ callback }: HomeProps) => {
                     <h5>Daily Check - Update Your Daily Health Status</h5>
                   </div>
                 </div>
-                <div className="p-2">
-                  <Button variant="primary" onClick={handleShow}>
+                <div className="p-4">
+                  <Button variant="primary" onClick={handleShow} size="lg" >
                     Go
                   </Button>
                   <Modal show={show} onHide={handleClose}>
