@@ -26,10 +26,16 @@ type DatedInfo = {
   sleep: number;
 };
 
+type FirebaseDatedInfo = {
+  date: admin.firestore.Timestamp;
+  weight: number;
+  sleep: number;
+};
+
 type FirebaseUser = {
   firstName: string;
   lastName: string;
-  info: DatedInfo[];
+  info: FirebaseDatedInfo[];
 };
 
 type User = FirebaseUser & {
@@ -45,7 +51,7 @@ app.post("/createUser", async (req, res) => {
   const firebaseUser = {
     firstName: firstName,
     lastName: lastName,
-    DatedInfo: [],
+    FirebaseDatedInfo: [],
   };
   await usersCollection.doc(uid as string).set(firebaseUser);
   res.send(uid);
@@ -55,16 +61,17 @@ app.post("/createUser", async (req, res) => {
 // pass in weight and sleep ?
 app.put("/newEntry", async (req, res) => {
   const uid = req.query.uid as string;
-  const date = new Date();
+  const seconds: number = Math.round(new Date().getTime() / 1000);
+  const timestamp: admin.firestore.Timestamp = new admin.firestore.Timestamp(seconds, 0);
   const { weight, sleep } = req.body;
   const newInfo = {
-    date: date,
+    date: timestamp,
     weight: weight,
     sleep: sleep,
-  };
+  } as FirebaseDatedInfo;
   const userDoc = await usersCollection.doc(uid).get();
-  const user = userDoc.data() as User;
-  let infoArr = user.info;
+  const user = userDoc.data() as FirebaseUser;
+  let infoArr:FirebaseDatedInfo[] = user.info
   infoArr.push(newInfo);
   const updateInfo = { info: infoArr };
   await usersCollection
@@ -78,17 +85,20 @@ app.put("/removeDailyEntries", async (req, res) => {
   const uid = req.query.uid as string;
   const date = new Date();
   const userDoc = await usersCollection.doc(uid).get();
-  const user = userDoc.data() as User;
-  let infoArr = user.info;
+  const user = userDoc.data() as FirebaseUser;
+  const infoArr = user.info;
   let index = infoArr.length;
+  
 
   for (let i = 0; i < infoArr.length; i++) {
-    if (infoArr[i].date.getDay() === date.getDay()) {
+    let currentDate = infoArr[i].date.toDate();
+    if (currentDate.getFullYear() === date.getFullYear() &&
+    currentDate.getMonth() === date.getMonth() &&
+    currentDate.getDate() === date.getDate()) {
       index = i;
       break;
     }
   }
-
   const updatedArr = infoArr.slice(0, index);
   const updateInfo = { info: updatedArr };
   await usersCollection
@@ -118,9 +128,10 @@ app.get("/getUsers", async (_, res) => {
   res.send(users);
 });
 
+
 app.get("/getData", async (req, res) => {
   const uid = req.query.uid as string;
-  const data: DatedInfo[] = [];
+  const data: FirebaseDatedInfo[] = [];
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
   for (let info of user.info) {
