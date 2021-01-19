@@ -19,7 +19,6 @@
     "bootstrap": "^4.5.3",
     "firebase": "^8.2.2",
     "fusioncharts": "^3.16.0",
-    "fusionmaps": "^3.16.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
@@ -28,7 +27,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-scrolllock": "^5.0.1",
-    "tabletop": "^1.6.3",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
@@ -56,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/fusioncharts": "^3.11.5"
   }
 }

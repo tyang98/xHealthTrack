@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import ReactFC from "react-fusioncharts";
-import * as FusionCharts from "fusioncharts";
-import TimeSeries from "fusioncharts/fusioncharts.charts";
+import FusionCharts from "fusioncharts";
+import TimeSeries from "fusioncharts/fusioncharts.timeseries";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-import { items } from "fusionmaps";
+
+
+
+ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
 
 const WChart = () => {
-  ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
-  const data = [];
+
   const [items, setItems] = useState();
 
   let schema = [
@@ -23,14 +24,11 @@ const WChart = () => {
     },
   ];
 
-  let tempdata = [
-    ["1/4/2011", 16.448],
-    ["1/5/2011", 272.736],
-    ["1/5/2011", 11.784],
-    ["12/31/2014", 20.72],
-    ["12/31/2014", 13.904],
-    ["12/31/2014", 3.024],
-  ];
+  const dataFetch = () => {fetch(
+    "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/line-chart-with-time-axis-data.json"
+    ).then((res: { json: () => any; }) => res.json()
+    ).then((json) => setItems(json));
+  }
 
   const fetchData = () => {
     fetch("/getWeightData")
@@ -39,16 +37,33 @@ const WChart = () => {
     console.log(items);
   };
 
-  useEffect(() => fetchData(), []);
-  // useEffect(() => {
-  //   Tabletop.init({
-  //     key: "1OsV0V-ffEF4-BkCqhoKXPlaJN__g_B94fZEsUt1cKXU",
-  //     callback: (data: any) => {
-  //       setItems(data);
-  //     },
-  //     simpleSheet: true,
-  //   });
-  // }, []);
+  let tempdata = [
+    [
+        "1/4/2011",
+        16.448
+    ],
+    [
+        "1/5/2011",
+        272.736
+    ],
+    [
+        "1/5/2011",
+        11.784
+    ],
+    [
+        "12/31/2014",
+        20.72
+    ],
+    [
+        "12/31/2014",
+        13.904
+    ]
+  ]
+  let fusionDataStore = new FusionCharts.DataStore();
+  let fusionTable = fusionDataStore.createDataTable(tempdata, schema);
+
+  // useEffect(() => fetchData(), []);
+  useEffect(() => dataFetch(), []);
 
   const chartConfigs = {
     type: "timeseries",
@@ -65,7 +80,7 @@ const WChart = () => {
         theme: "fusion",
       },
       // Chart Data
-      data: tempdata,
+      data: fusionTable
     },
   };
 
