@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { TextField } from "@material-ui/core";
 import { Button } from "react-bootstrap";
-import background from "frontend/src/images/img.png";
-import ScrollLock from "react-scrolllock";
+import 'firebase/auth';
+import firebase from 'firebase/app';
+import axios from 'axios';
 
 type CheckProps = {
   callback: () => void;
@@ -24,8 +25,13 @@ const Check = ({ callback }: CheckProps) => {
     setSleep(+event.target.value);
   };
 
-  const onSubmit = () => {
-    //callback(weight, sleep, new Date());
+  const onSubmit = (weight: number, height: number) => {
+    const firebaseUser = firebase.auth().currentUser;
+    const uid = firebaseUser?.uid;
+   // const user = axios.get<User>(`/getUser?uid=${uid}`);
+    axios.put(`/newEntry?uid=${uid}`, { weight, sleep })
+    .then(() => console.log("submitted!"))
+    .catch((error) => console.log(error));  
   };
 
   return (
@@ -40,6 +46,7 @@ const Check = ({ callback }: CheckProps) => {
             className="Section"
             type="text"
             value={weight}
+            helperText={"Enter your weight (lbs)"}
             variant="outlined"
             onChange={onChangeWeight}
           />{" "}
@@ -48,6 +55,7 @@ const Check = ({ callback }: CheckProps) => {
             label="Sleep today"
             className="Section"
             type="text"
+            helperText={"Enter hours slept"}
             value={sleep}
             variant="outlined"
             onChange={onChangeSleep}
@@ -55,7 +63,7 @@ const Check = ({ callback }: CheckProps) => {
           <br /> <br />
           {/* add more stuff */}
           <br />
-          <Button variant="primary" onClick={callback}>
+          <Button variant="primary" onClick={() => { onSubmit(weight, sleep); callback() }}>
             Save
           </Button>
         </div>
