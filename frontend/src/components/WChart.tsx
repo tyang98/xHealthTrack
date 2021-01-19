@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts";
 import TimeSeries from "fusioncharts/fusioncharts.timeseries";
@@ -21,7 +22,7 @@ const WChart = () => {
     {
       name: "Weight",
       type: "number",
-    },
+    }
   ];
 
   const dataFetch = () => {fetch(
@@ -40,23 +41,27 @@ const WChart = () => {
   let tempdata = [
     [
         "1/4/2011",
-        16.448
+        127
     ],
     [
         "1/5/2011",
-        272.736
+        140
     ],
     [
-        "1/5/2011",
-        11.784
+        "1/6/2011",
+        160
     ],
     [
-        "12/31/2014",
-        20.72
+      "1/11/2011",
+      170
     ],
     [
-        "12/31/2014",
-        13.904
+        "12/31/2011",
+        240
+    ],
+    [
+        "8/31/2011",
+        180
     ]
   ]
   let fusionDataStore = new FusionCharts.DataStore();
@@ -67,21 +72,33 @@ const WChart = () => {
 
   const chartConfigs = {
     type: "timeseries",
+    renderAt: "container",
     width: "500",
-    height: "500",
+    height: "400",
     dataFormat: "json",
     dataSource: {
-      chart: {
-        caption: "Your weight history",
-        subCaption: "Past ???? days",
-        xAxisName: "Date",
-        yAxisName: "Weight",
-        numberSuffix: "lb",
-        theme: "fusion",
+      data: fusionTable,
+      caption: {
+        text: "Your weight history"
       },
-      // Chart Data
-      data: fusionTable
-    },
+        subcaption: {
+          text: "Based off your daily check entries"
+        },
+        yaxis: [
+        {
+          columnname: "Weight",
+          plottype: "line",
+          plot: [
+            {
+              value: "Weight",
+              connectnulldata: true
+            }
+          ],
+          title: "Weight",
+          connectNullData: true
+        }
+        ],
+    }
   };
 
   return <ReactFC {...chartConfigs} />;
