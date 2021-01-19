@@ -43,7 +43,7 @@ const Home = ({ callback }: HomeProps) => {
               <div className="d-flex align-items-center">
                 <div className="mr-auto p-2">
                   <div className="card-body">
-                    <h5>Daily Check - Update your graphs</h5>
+                    <h5>Daily Check - Update Your Daily Health Status</h5>
                   </div>
                 </div>
                 <div className="p-2">
