@@ -57,15 +57,18 @@ app.put("/newEntry", async (req, res) => {
   const uid = req.query.uid as string;
   const date = new Date();
   const { weight, sleep } = req.body;
-  const info = {
+  const newInfo = {
     date: date,
     weight: weight,
     sleep: sleep,
   };
-
-  const userDoc = await usersCollection.doc(uid).update({ info });
-
-  res.send("updated");
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let infoArr = user.info;
+  infoArr.push(newInfo);
+  const updateInfo = { info: infoArr }
+  await usersCollection.doc(uid).update(updateInfo).catch((error) => console.log(error));
+  res.send("Updated!");
 });
 
 //get user by uid
