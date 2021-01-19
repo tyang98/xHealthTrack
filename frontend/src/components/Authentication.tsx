@@ -33,20 +33,20 @@ const Authentication = () => {
   const [msg, setMsg] = useState('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
-  // const onAuthStateChanged = () => {
-  //   return firebase.auth().onAuthStateChanged(async (currentUser) => {
-  //     if (currentUser !== null) {
-  //       const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
-  //       console.log(user.data.firstName);
-  //       setUser(user.data);
-  //     }
-  //     else {
-  //       setUser(null);
-  //     }
-  //   });
-  // }
+  const onAuthStateChanged = () => {
+    return firebase.auth().onAuthStateChanged(async (currentUser) => {
+      if (currentUser !== null) {
+        const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
+        console.log(user.data.firstName);
+        setUser(user.data);
+      }
+      else {
+        setUser(null);
+      }
+    });
+  }
 
-  // useEffect(() => onAuthStateChanged(), []);
+  useEffect(() => onAuthStateChanged(), []);
 
 
   const register = (email: string, password: string, firstName: string, lastName: string) => {

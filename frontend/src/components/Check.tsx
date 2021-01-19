@@ -1,75 +1,67 @@
-import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
-import background from 'frontend/src/images/img.png';
-import ScrollLock from 'react-scrolllock';
-
+import React, { useState } from "react";
+import { TextField } from "@material-ui/core";
+import { Button } from "react-bootstrap";
+import background from "frontend/src/images/img.png";
+import ScrollLock from "react-scrolllock";
 
 type CheckProps = {
-    callback: (weight: number, sleep: number, date: Date) => void;
-}
+  callback: () => void;
+};
 
 const Check = ({ callback }: CheckProps) => {
-    const [weight, setWeight] = useState(+'');
-    const [sleep, setSleep] = useState(+'');
+  const [weight, setWeight] = useState(+"");
+  const [sleep, setSleep] = useState(+"");
 
-    const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setWeight(+event.target.value);
-    }
+  const onChangeWeight = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setWeight(+event.target.value);
+  };
 
-    const onChangeSleep = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setSleep(+event.target.value);
-    }
+  const onChangeSleep = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSleep(+event.target.value);
+  };
 
-    const onSubmit = () => {
-        // if (!(weight instanceOf number)) {
-        //     setMessage('Please enter your first and last name!');
-        //     setSnackBarOpen(true);
-        // }
-        // else if (email.length === 0 || password.length === 0) {
-        //     setMessage('Please enter your email address and password!');
-        //     setSnackBarOpen(true);
-        // }
-        // else if (password === passwordRepeat) {
-        //     callback(weight, new Date());
-        // }
-        callback(weight, sleep, new Date());
-    }
+  const onSubmit = () => {
+    //callback(weight, sleep, new Date());
+  };
 
-    return (
-        <div>
-
-            <ScrollLock>
-            <img src={background} alt={""} style={{ minHeight: '100%', minWidth: '100%', position: 'fixed', top: '0', left: '0', zIndex: -1 }} />
-            </ScrollLock>
-            <div className="Wrapper"  style={{ justifyContent: 'center' }}> 
-                <div className="Sections">
-                    <h1>Daily Check</h1><br/>
-                    <TextField
-                        label="Weight today"
-                        className="Section"
-                        type="text"
-                        value={weight}
-                        variant="outlined"
-                        onChange={onChangeWeight} /> <br/> <br/>
-                    <TextField
-                        label="Sleep today"
-                        className="Section"
-                        type="text"
-                        value={sleep}
-                        variant="outlined"
-                        onChange={onChangeSleep} /> <br/> <br/>
-{/* add more stuff */}
-                    <Button 
-                        variant="contained"
-                        style={{width: '20%'}}
-                        color="primary"
-                        onClick={onSubmit}
-                    > Submit
-                    </Button> <br/> <br/>
-                </div>
-            </div>
+  return (
+    <div>
+      <div className="Wrapper" style={{ justifyContent: "center" }}>
+        <div className="Sections">
+          <h1>Daily Check</h1>
+          <h6>Enter Your Daily Info</h6>
+          <br />
+          <TextField
+            label="Weight today"
+            className="Section"
+            type="text"
+            value={weight}
+            variant="outlined"
+            onChange={onChangeWeight}
+          />{" "}
+          <br /> <br />
+          <TextField
+            label="Sleep today"
+            className="Section"
+            type="text"
+            value={sleep}
+            variant="outlined"
+            onChange={onChangeSleep}
+          />{" "}
+          <br /> <br />
+          {/* add more stuff */}
+          <br />
+          <Button variant="primary" onClick={callback}>
+            Save
+          </Button>
         </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
 export default Check;
