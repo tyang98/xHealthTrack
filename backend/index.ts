@@ -66,9 +66,36 @@ app.put("/newEntry", async (req, res) => {
   const user = userDoc.data() as User;
   let infoArr = user.info;
   infoArr.push(newInfo);
-  const updateInfo = { info: infoArr }
-  await usersCollection.doc(uid).update(updateInfo).catch((error) => console.log(error));
+  const updateInfo = { info: infoArr };
+  await usersCollection
+    .doc(uid)
+    .update(updateInfo)
+    .catch((error) => console.log(error));
   res.send("Updated!");
+});
+
+app.put("/removeDailyEntries", async (req, res) => {
+  const uid = req.query.uid as string;
+  const date = new Date();
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let infoArr = user.info;
+  let index = infoArr.length;
+
+  for (let i = 0; i < infoArr.length; i++) {
+    if (infoArr[i].date.getDay() === date.getDay()) {
+      index = i;
+      break;
+    }
+  }
+
+  const updatedArr = infoArr.slice(0, index);
+  const updateInfo = { info: updatedArr };
+  await usersCollection
+    .doc(uid)
+    .update(updateInfo)
+    .catch((error) => console.log(error));
+  res.send("Removed!");
 });
 
 //get user by uid
@@ -98,6 +125,28 @@ app.get("/getData", async (req, res) => {
   const user = userDoc.data() as User;
   for (let info of user.info) {
     data.push(info);
+  }
+  res.send(data);
+});
+
+app.get("/getSleepData", async (req, res) => {
+  const uid = req.query.uid as string;
+  const data: number[] = [];
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  for (let info of user.info) {
+    data.push(info.sleep);
+  }
+  res.send(data);
+});
+
+app.get("/getWeightData", async (req, res) => {
+  const uid = req.query.uid as string;
+  const data: number[] = [];
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  for (let info of user.info) {
+    data.push(info.weight);
   }
   res.send(data);
 });
