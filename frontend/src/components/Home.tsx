@@ -64,7 +64,7 @@ const Home = ({ callback }: HomeProps) => {
         <div className="row">
           
           <div className="col">
-            <h1>{welcomeMessage} <span className="wave">👋</span> It is {moment().format(' h:mm:ss a, MMMM Do YYYY')}</h1>
+            <h1>{welcomeMessage} <span className="wave">👋</span> It is {moment().format(' h:mm:ss A, MMMM Do YYYY')}</h1>
             <br/>
             <div className="card text-left text-primary bg-light border-primary">
               <div className="d-flex align-items-center">
