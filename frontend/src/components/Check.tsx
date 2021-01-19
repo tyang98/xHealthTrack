@@ -34,6 +34,15 @@ const Check = ({ callback }: CheckProps) => {
     .catch((error) => console.log(error));  
   };
 
+  const onRemove = () => {
+    const firebaseUser = firebase.auth().currentUser;
+    const uid = firebaseUser?.uid;
+   // const user = axios.get<User>(`/getUser?uid=${uid}`);
+    axios.put(`/removeDailyEntries?uid=${uid}`)
+    .then(() => console.log("removed!"))
+    .catch((error) => console.log(error));  
+  };
+
   return (
     <div>
       <div className="Wrapper" style={{ justifyContent: "center" }}>
@@ -62,9 +71,12 @@ const Check = ({ callback }: CheckProps) => {
           />{" "}
           <br /> <br />
           {/* add more stuff */}
-          <br />
-          <Button variant="primary" onClick={() => { onSubmit(weight, sleep); callback() }}>
+          <Button variant="primary" onClick={() => { onSubmit(weight, sleep); callback() }} style={{ marginRight: 10}}>
             Save
+          </Button>
+          {' '}
+          <Button variant="danger" onClick={() => { onRemove() }} style={{ marginLeft: 10 }}>
+            Undo
           </Button>
         </div>
       </div>

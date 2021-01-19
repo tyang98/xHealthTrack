@@ -73,29 +73,12 @@ app.put("/newEntry", async (req, res) => {
   const user = userDoc.data() as FirebaseUser;
   let infoArr:FirebaseDatedInfo[] = user.info
   infoArr.push(newInfo);
-  const updateInfo = { info: infoArr }
-  await usersCollection.doc(uid).update(updateInfo).catch((error) => console.log(error));
+  const updateInfo = { info: infoArr };
+  await usersCollection
+    .doc(uid)
+    .update(updateInfo)
+    .catch((error) => console.log(error));
   res.send("Updated!");
-});
-
-//get user by uid
-app.get("/getUser", async (req, res) => {
-  const uid = req.query.uid as string;
-  const userDoc = await usersCollection.doc(uid).get();
-  const user = userDoc.data() as User;
-  res.send({ ...user, uid });
-});
-
-//get all users
-app.get("/getUsers", async (_, res) => {
-  const allUsersDoc = await usersCollection.get();
-  const users: User[] = [];
-  for (let doc of allUsersDoc.docs) {
-    let user: User = doc.data() as User;
-    user.uid = doc.id;
-    users.push(user);
-  }
-  res.send(users);
 });
 
 app.put("/removeDailyEntries", async (req, res) => {
@@ -125,6 +108,26 @@ app.put("/removeDailyEntries", async (req, res) => {
   res.send("Removed!");
 });
 
+//get user by uid
+app.get("/getUser", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  res.send({ ...user, uid });
+});
+
+//get all users
+app.get("/getUsers", async (_, res) => {
+  const allUsersDoc = await usersCollection.get();
+  const users: User[] = [];
+  for (let doc of allUsersDoc.docs) {
+    let user: User = doc.data() as User;
+    user.uid = doc.id;
+    users.push(user);
+  }
+  res.send(users);
+});
+
 
 app.get("/getData", async (req, res) => {
   const uid = req.query.uid as string;
@@ -133,6 +136,28 @@ app.get("/getData", async (req, res) => {
   const user = userDoc.data() as User;
   for (let info of user.info) {
     data.push(info);
+  }
+  res.send(data);
+});
+
+app.get("/getSleepData", async (req, res) => {
+  const uid = req.query.uid as string;
+  const data: number[] = [];
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  for (let info of user.info) {
+    data.push(info.sleep);
+  }
+  res.send(data);
+});
+
+app.get("/getWeightData", async (req, res) => {
+  const uid = req.query.uid as string;
+  const data: number[] = [];
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  for (let info of user.info) {
+    data.push(info.weight);
   }
   res.send(data);
 });
