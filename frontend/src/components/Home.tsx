@@ -5,6 +5,7 @@ import NavigationBar from "./NavigationBar";
 import moment from 'moment';
 import Footer from "./Footer";
 import '../styles/Home.css';
+import BodyMassIndex from './BodyMassIndex';
 import background from "frontend/src/images/img.png";
 import { Button, Modal } from "react-bootstrap";
 import axios from 'axios';
@@ -111,7 +112,9 @@ const Home = ({ callback }: HomeProps) => {
             <WChart />
           </div>
           {/* 3rd panel */}
-          <div className="col">3rd panel for something else?</div>
+          <div className="col">
+            <BodyMassIndex />
+          </div>
         </div>
       </div>
     </div>
