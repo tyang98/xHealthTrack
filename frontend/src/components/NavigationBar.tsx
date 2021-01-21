@@ -55,10 +55,10 @@ const NavigationBar = ( { callback }: NavigationBarProps ) => {
   </div>
   <div>
     <Switch>
-        <Route exact path="/home" component={Home}/>
         <Route path="/sleep" component={Sleep} />
         <Route path="/health" component={Health} />
         <Route path="/fitness" component={Fitness} />
+        <Route  path="/" component={Home}/>
     </Switch>
   </div>
   </div>

@@ -7,6 +7,7 @@ import axios from "axios";
 import firebase from "firebase/app";
 import Snackbar from "@material-ui/core/Snackbar";
 import Register from "./Register";
+import NavigationBar from "./NavigationBar";
 //import { useEffect } from 'react';
 
 const firebaseConfig = {
@@ -140,7 +141,7 @@ const Authentication = () => {
           {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          {user ? <Home callback={signout} /> : <Login callback={login} />}
+          {user ? <NavigationBar callback={signout} /> : <Login callback={login} />}
         </Route>
       </Switch>
       <Snackbar
