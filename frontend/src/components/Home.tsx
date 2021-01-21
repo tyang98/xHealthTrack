@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ScrollLock from "react-scrolllock";
-import NavigationBar from "./NavigationBar";
 import moment from 'moment';
 import Footer from "./Footer";
 import '../styles/Home.css';
@@ -14,17 +13,13 @@ import firebase from 'firebase/app';
 import Check from "./Check";
 import WChart from "./WChart";
 
-type HomeProps = {
-  callback: () => void;
-};
-
 type User = {
   uid: string;
   firstName: string;
   lastName: string;
 }
 
-const Home = ({ callback }: HomeProps) => {
+const Home = () => {
   const [firstName, setFirstName] = useState('br');
   const [show, setShow] = useState(false);
 
@@ -45,7 +40,6 @@ const Home = ({ callback }: HomeProps) => {
 
   return (
     <div className="home">
-      <NavigationBar callback={callback} />
       <ScrollLock>
         <img
           src={background}

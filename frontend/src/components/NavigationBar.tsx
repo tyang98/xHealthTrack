@@ -5,9 +5,14 @@ import { IconButton } from '@material-ui/core';
 import navLogo from 'frontend/src/images/nav.png';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Home from './Home';
+import Sleep from './Sleep';
+import Fitness from './Fitness';
+import Health from './Health';
 import logo from 'frontend/src/logo.svg';
 import '../styles/NavigationBar.css';
 
+import { Switch, Route, Link } from 'react-router-dom';
 
 type NavigationBarProps = {
   callback: () => void;
@@ -15,17 +20,19 @@ type NavigationBarProps = {
 
 const NavigationBar = ( { callback }: NavigationBarProps ) => {
   return (
+    <div>
+    <div>
     <Navbar className="color-nav" variant="light" expand="lg" sticky="top">
-    <Navbar.Brand href="/">
+    <Navbar.Brand as={Link} to="/">
       <Image src={navLogo} alt={""} />
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <Nav.Link href="/" >Home</Nav.Link>
-        <Nav.Link href="/fitness" className="labels">Fitness</Nav.Link>
-        <Nav.Link href="/sleep" className="labels">Sleep</Nav.Link>
-        <Nav.Link href="/health" className="labels">Health</Nav.Link>
+        <Nav.Link as={Link} to="/" >Home</Nav.Link>
+        <Nav.Link as={Link} to="/fitness">Fitness</Nav.Link>
+        <Nav.Link as={Link} to="/sleep">Sleep</Nav.Link>
+        <Nav.Link as={Link} to="/health">Health</Nav.Link>
       </Nav>
       <Nav.Link href="https://github.com/tyang98/xHy0rinstyx">
         <IconButton>
@@ -45,6 +52,16 @@ const NavigationBar = ( { callback }: NavigationBarProps ) => {
       </IconButton>
     </Navbar.Collapse>
   </Navbar>
+  </div>
+  <div>
+    <Switch>
+        <Route path="/sleep" component={Sleep} />
+        <Route path="/health" component={Health} />
+        <Route path="/fitness" component={Fitness} />
+        <Route  path="/" component={Home}/>
+    </Switch>
+  </div>
+  </div>
   )
 }
 
