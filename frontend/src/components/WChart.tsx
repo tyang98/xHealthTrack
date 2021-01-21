@@ -11,25 +11,19 @@ ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
 
 const WChart = () => {
 
-  const [items, setItems] = useState();
+  const [items, setItems] = useState([]);
 
   let schema = [
     {
-      name: "Time",
+      name: "date",
       type: "date",
       format: "%-m/%-d/%Y",
     },
     {
-      name: "Weight",
+      name: "weight",
       type: "number",
     }
   ];
-
-  const dataFetch = () => {fetch(
-    "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/line-chart-with-time-axis-data.json"
-    ).then((res: { json: () => any; }) => res.json()
-    ).then((json) => setItems(json));
-  }
 
   const fetchData = () => {
     fetch("/getWeightData")
@@ -65,10 +59,13 @@ const WChart = () => {
     ]
   ]
   let fusionDataStore = new FusionCharts.DataStore();
-  let fusionTable = fusionDataStore.createDataTable(tempdata, schema);
+  //let fusionTable = fusionDataStore.createDataTable(tempdata, schema);
+  let fusionTable:any = '';
 
-  // useEffect(() => fetchData(), []);
-  useEffect(() => dataFetch(), []);
+  useEffect(() => {
+    fetchData();
+    fusionTable = fusionDataStore.createDataTable(items, schema);
+  });
 
   const chartConfigs = {
     type: "timeseries",

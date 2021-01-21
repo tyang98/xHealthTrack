@@ -153,11 +153,20 @@ app.get("/getSleepData", async (req, res) => {
 
 app.get("/getWeightData", async (req, res) => {
   const uid = req.query.uid as string;
-  const data: number[] = [];
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
+  const data: any[] = [];
   for (let info of user.info) {
-    data.push(info.weight);
+    const entry: any[] = [];
+    let dateString = '';
+    dateString += (info.date.toDate().getMonth() + 1);
+    dateString += "/";
+    dateString += info.date.toDate().getDate();
+    dateString += "/";
+    dateString += info.date.toDate().getFullYear();
+    entry.push(dateString);
+    entry.push(info.weight);
+    data.push(entry);
   }
   res.send(data);
 });
