@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ScrollLock from "react-scrolllock";
-import NavigationBar from "./NavigationBar";
 import moment from 'moment';
 import Footer from "./Footer";
 import '../styles/Home.css';
+import BodyMassIndex from './BodyMassIndex';
 import background from "frontend/src/images/img.png";
 import { Button, Modal } from "react-bootstrap";
 import axios from 'axios';
@@ -13,17 +13,13 @@ import firebase from 'firebase/app';
 import Check from "./Check";
 import WChart from "./WChart";
 
-type HomeProps = {
-  callback: () => void;
-};
-
 type User = {
   uid: string;
   firstName: string;
   lastName: string;
 }
 
-const Home = ({ callback }: HomeProps) => {
+const Home = () => {
   const [firstName, setFirstName] = useState('br');
   const [show, setShow] = useState(false);
 
@@ -44,7 +40,6 @@ const Home = ({ callback }: HomeProps) => {
 
   return (
     <div className="home">
-      <NavigationBar callback={callback} />
       <ScrollLock>
         <img
           src={background}
@@ -111,7 +106,9 @@ const Home = ({ callback }: HomeProps) => {
             <WChart />
           </div>
           {/* 3rd panel */}
-          <div className="col">3rd panel for something else?</div>
+          <div className="col">
+            <BodyMassIndex />
+          </div>
         </div>
       </div>
     </div>
