@@ -1,104 +1,107 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import ReactFC from "react-fusioncharts";
+import "firebase/auth";
+import firebase from "firebase/app";
 import FusionCharts from "fusioncharts";
 import TimeSeries from "fusioncharts/fusioncharts.timeseries";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-
-
+import axios from "axios";
 
 ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
 
 const WChart = () => {
-
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as any);
+  const temp: any[] = [];
 
   let schema = [
     {
-      name: "date",
+      name: "Time",
       type: "date",
       format: "%-m/%-d/%Y",
     },
     {
-      name: "weight",
+      name: "Weight",
       type: "number",
-    }
+    },
   ];
 
-  const fetchData = () => {
-    fetch("/getWeightData")
-      .then((res) => res.json())
-      .then((json) => setItems(json));
-    console.log(items);
-  };
-
-  let tempdata = [
-    [
-        "1/4/2011",
-        127
-    ],
-    [
-        "1/5/2011",
-        140
-    ],
-    [
-        "1/6/2011",
-        160
-    ],
-    [
-      "1/11/2011",
-      170
-    ],
-    [
-        "12/31/2011",
-        240
-    ],
-    [
-        "8/31/2011",
-        180
-    ]
-  ]
   let fusionDataStore = new FusionCharts.DataStore();
-  //let fusionTable = fusionDataStore.createDataTable(tempdata, schema);
-  let fusionTable:any = '';
+  let tempDatastore = new FusionCharts.DataStore();
+  let tempDatastore2 = tempDatastore.createDataTable(temp, schema);
 
-  useEffect(() => {
-    fetchData();
-    fusionTable = fusionDataStore.createDataTable(items, schema);
-  });
-
-  const chartConfigs = {
+  const [chartConfig, setChartConfig] = useState({
     type: "timeseries",
     renderAt: "container",
     width: "500",
     height: "400",
     dataFormat: "json",
     dataSource: {
-      data: fusionTable,
+      data: tempDatastore2,
       caption: {
-        text: "Your weight history"
+        text: "Your weight history",
       },
-        subcaption: {
-          text: "Based off your daily check entries"
-        },
-        yaxis: [
+      subcaption: {
+        text: "Based off your daily check entries",
+      },
+      yaxis: [
         {
           columnname: "Weight",
           plottype: "line",
           plot: [
             {
               value: "Weight",
-              connectnulldata: true
-            }
+              connectnulldata: true,
+            },
           ],
           title: "Weight",
-          connectNullData: true
-        }
+        },
+      ],
+    },
+  });
+
+  const fetchData = async () => {
+    const firebaseUser = firebase.auth().currentUser;
+    const uid = firebaseUser?.uid;
+    const tempItems = await axios.get(`/getWeightData?uid=${uid}`);
+    setItems(tempItems.data);
+    const newTable = fusionDataStore.createDataTable(items, schema);
+    const newConfig = {
+      type: "timeseries",
+      renderAt: "container",
+      width: "500",
+      height: "400",
+      dataFormat: "json",
+      dataSource: {
+        data: newTable,
+        caption: {
+          text: "Your weight history",
+        },
+        subcaption: {
+          text: "Based off your daily check entries",
+        },
+        yaxis: [
+          {
+            columnname: "Weight",
+            plottype: "line",
+            plot: [
+              {
+                value: "Weight",
+                connectnulldata: true,
+              },
+            ],
+            title: "Weight",
+          },
         ],
-    }
+      },
+    };
+    setChartConfig(newConfig);
   };
 
-  return <ReactFC {...chartConfigs} />;
+  useEffect(() => {
+    fetchData();
+  });
+
+  return <ReactFC {...chartConfig} />;
 };
 
 export default WChart;
