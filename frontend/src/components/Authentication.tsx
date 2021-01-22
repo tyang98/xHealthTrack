@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "firebase/auth";
 import Login from "./Login";
-import Home from "./Home";
 import { Switch, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 import firebase from "firebase/app";
 import Snackbar from "@material-ui/core/Snackbar";
 import Register from "./Register";
 import NavigationBar from "./NavigationBar";
-//import { useEffect } from 'react';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvd7tj-9eane2m_2h6pNd4Zc0oMr7SbbA",
