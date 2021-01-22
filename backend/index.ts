@@ -62,7 +62,10 @@ app.post("/createUser", async (req, res) => {
 app.put("/newEntry", async (req, res) => {
   const uid = req.query.uid as string;
   const seconds: number = Math.round(new Date().getTime() / 1000);
-  const timestamp: admin.firestore.Timestamp = new admin.firestore.Timestamp(seconds, 0);
+  const timestamp: admin.firestore.Timestamp = new admin.firestore.Timestamp(
+    seconds,
+    0
+  );
   const { weight, sleep } = req.body;
   const newInfo = {
     date: timestamp,
@@ -71,7 +74,7 @@ app.put("/newEntry", async (req, res) => {
   } as FirebaseDatedInfo;
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as FirebaseUser;
-  let infoArr:FirebaseDatedInfo[] = user.info
+  let infoArr: FirebaseDatedInfo[] = user.info;
   infoArr.push(newInfo);
   const updateInfo = { info: infoArr };
   await usersCollection
@@ -88,13 +91,14 @@ app.put("/removeDailyEntries", async (req, res) => {
   const user = userDoc.data() as FirebaseUser;
   const infoArr = user.info;
   let index = infoArr.length;
-  
 
   for (let i = 0; i < infoArr.length; i++) {
     let currentDate = infoArr[i].date.toDate();
-    if (currentDate.getFullYear() === date.getFullYear() &&
-    currentDate.getMonth() === date.getMonth() &&
-    currentDate.getDate() === date.getDate()) {
+    if (
+      currentDate.getFullYear() === date.getFullYear() &&
+      currentDate.getMonth() === date.getMonth() &&
+      currentDate.getDate() === date.getDate()
+    ) {
       index = i;
       break;
     }
@@ -128,7 +132,6 @@ app.get("/getUsers", async (_, res) => {
   res.send(users);
 });
 
-
 app.get("/getData", async (req, res) => {
   const uid = req.query.uid as string;
   const data: FirebaseDatedInfo[] = [];
@@ -142,23 +145,43 @@ app.get("/getData", async (req, res) => {
 
 app.get("/getSleepData", async (req, res) => {
   const uid = req.query.uid as string;
-  const data: number[] = [];
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
-  for (let info of user.info) {
-    data.push(info.sleep);
-  }
+  const data: any[] = [];
+  user.info.map((info) => {
+    let entry: any[] = [];
+    let dateString = "";
+    dateString += info.date.toDate().getMonth() + 1;
+    dateString += "/";
+    dateString += info.date.toDate().getDate();
+    dateString += "/";
+    dateString += info.date.toDate().getFullYear();
+    entry.push(dateString);
+    entry.push(info.sleep);
+    data.push(entry);
+    return { entry };
+  });
   res.send(data);
 });
 
 app.get("/getWeightData", async (req, res) => {
   const uid = req.query.uid as string;
-  const data: number[] = [];
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
-  for (let info of user.info) {
-    data.push(info.weight);
-  }
+  const data: any[] = [];
+  user.info.map((info) => {
+    let entry: any[] = [];
+    let dateString = "";
+    dateString += info.date.toDate().getMonth() + 1;
+    dateString += "/";
+    dateString += info.date.toDate().getDate();
+    dateString += "/";
+    dateString += info.date.toDate().getFullYear();
+    entry.push(dateString);
+    entry.push(info.weight);
+    data.push(entry);
+    return { entry };
+  });
   res.send(data);
 });
 
