@@ -40,7 +40,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <ScrollLock>
         <img
           src={background}
           alt={""}
@@ -53,13 +52,13 @@ const Home = () => {
             zIndex: -1,
           }}
         />
-      </ScrollLock>
       {/* daily check */}
       <div className="container-fluid pt-3">
         <div className="row">
           
           <div className="col">
-            <h1>{welcomeMessage} <span className="wave">👋</span> It is {moment().format(' h:mm A, MMMM Do YYYY')}</h1>
+            <h1>{welcomeMessage} <span className="wave">👋</span></h1>
+            <h3>It is {moment().format(' h:mm A, MMMM Do YYYY')}</h3>
             <br/>
             <div className="card text-left text-primary bg-light border-primary">
               <div className="d-flex align-items-center">

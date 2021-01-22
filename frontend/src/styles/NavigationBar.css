@@ -5,3 +5,8 @@
 .labels {
   color: black;
 }
+
+.sticky-nav {
+  position: sticky;
+  top: 0;
+}
