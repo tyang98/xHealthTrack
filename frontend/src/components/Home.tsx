@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ScrollLock from "react-scrolllock";
 import moment from 'moment';
-import Footer from "./Footer";
 import '../styles/Home.css';
 import BodyMassIndex from './BodyMassIndex';
 import background from "frontend/src/images/img.png";
@@ -12,6 +11,7 @@ import 'firebase/auth';
 import firebase from 'firebase/app';
 import Check from "./Check";
 import WChart from "./WChart";
+import SChart from "./SChart";
 
 type User = {
   uid: string;
@@ -20,7 +20,7 @@ type User = {
 }
 
 const Home = () => {
-  const [firstName, setFirstName] = useState('br');
+  const [firstName, setFirstName] = useState('Friend');
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -87,22 +87,11 @@ const Home = () => {
       {/* graph section */}
       <div className="container-fluid pt-3">
         <div className="row">
-          {/* first panel */}
-          <div className="col algin-self-end">
-            {" "}
-            {/* col-lg ? */}
-            <div className="card text-center bg-default">
-              <div className="card-body">
-                <div className="chart">
-                  <canvas id="chart" className="chart-canvas">
-                    Something
-                  </canvas>
-                </div>
-              </div>
-            </div>
+          <div className="col">
+            <SChart />
           </div>
           {/* large middle panel -- graph */}
-          <div className="col-5 align-self-center">
+          <div className="col">
             <WChart />
           </div>
           {/* 3rd panel */}
@@ -111,6 +100,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <br />
     </div>
   );
 };
