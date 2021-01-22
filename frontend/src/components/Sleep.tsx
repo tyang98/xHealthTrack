@@ -1,4 +1,3 @@
-import { SliderTypeMap } from '@material-ui/core';
 import React from 'react';
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
