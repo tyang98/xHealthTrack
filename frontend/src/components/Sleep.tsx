@@ -1,6 +1,9 @@
-import React from 'react';
+import React from "react";
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
+import { Row, Container, Col } from "react-bootstrap";
+import SleepHistogram from "./SleepHistogram";
+import SleepAverage from "./SleepAverage";
 
 const Sleep = () => {
   return (
@@ -19,9 +22,18 @@ const Sleep = () => {
           }}
         />
       </ScrollLock>
-       <h1>Sleep</h1>
+      <Container>
+        <Row style={{ marginTop: "5%" }}>
+          <Col>
+            <SleepHistogram />
+          </Col>{" "}
+          <Col>
+            <SleepAverage />
+          </Col>
+        </Row>
+      </Container>
     </div>
-  )
-}
+  );
+};
 
 export default Sleep;

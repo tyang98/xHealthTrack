@@ -9,7 +9,7 @@ import axios from "axios";
 
 ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
 
-const SChart = () => {
+const WeightChart = () => {
   const [items, setItems] = useState([] as any);
   const temp: any[] = [];
 
@@ -20,7 +20,7 @@ const SChart = () => {
       format: "%-m/%-d/%Y",
     },
     {
-      name: "Sleep",
+      name: "Weight",
       type: "number",
     },
   ];
@@ -38,22 +38,22 @@ const SChart = () => {
     dataSource: {
       data: tempDatastore2,
       caption: {
-        text: "Your sleep history",
+        text: "Your weight history",
       },
       subcaption: {
         text: "Based off your daily check entries",
       },
       yaxis: [
         {
-          columnname: "Sleep",
+          columnname: "Weight",
           plottype: "line",
           plot: [
             {
-              value: "Sleep",
+              value: "Weight",
               connectnulldata: true,
             },
           ],
-          title: "Sleep",
+          title: "Weight",
         },
       ],
     },
@@ -62,7 +62,7 @@ const SChart = () => {
   const fetchData = async () => {
     const firebaseUser = firebase.auth().currentUser;
     const uid = firebaseUser?.uid;
-    const tempItems = await axios.get(`/getSleepData?uid=${uid}`);
+    const tempItems = await axios.get(`/getWeightData?uid=${uid}`);
     setItems(tempItems.data);
     const newTable = fusionDataStore.createDataTable(items, schema);
     const newConfig = {
@@ -73,23 +73,30 @@ const SChart = () => {
       dataFormat: "json",
       dataSource: {
         data: newTable,
+        chart: {
+          showLegend: 0,
+          showPlotBorder: 0,
+          baseFont: "Verdana",
+          baseFontSize: 11,
+          baseFontColor: "#0066cc",
+        },
         caption: {
-          text: "Your sleep history",
+          text: "Your Weight History",
         },
         subcaption: {
           text: "Based off your daily check entries",
         },
         yaxis: [
           {
-            columnname: "Sleep",
+            columnname: "Weight",
             plottype: "line",
             plot: [
               {
-                value: "Sleep",
+                value: "Weight",
                 connectnulldata: true,
               },
             ],
-            title: "Sleep",
+            title: "Weight",
           },
         ],
       },
@@ -99,9 +106,9 @@ const SChart = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <ReactFC {...chartConfig} />;
 };
 
-export default SChart;
+export default WeightChart;

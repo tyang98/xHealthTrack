@@ -9,7 +9,7 @@ import axios from "axios";
 
 ReactFC.fcRoot(FusionCharts, TimeSeries, FusionTheme);
 
-const WChart = () => {
+const SleepChart = () => {
   const [items, setItems] = useState([] as any);
   const temp: any[] = [];
 
@@ -20,7 +20,7 @@ const WChart = () => {
       format: "%-m/%-d/%Y",
     },
     {
-      name: "Weight",
+      name: "Sleep",
       type: "number",
     },
   ];
@@ -38,22 +38,22 @@ const WChart = () => {
     dataSource: {
       data: tempDatastore2,
       caption: {
-        text: "Your weight history",
+        text: "Your sleep history",
       },
       subcaption: {
         text: "Based off your daily check entries",
       },
       yaxis: [
         {
-          columnname: "Weight",
+          columnname: "Sleep",
           plottype: "line",
           plot: [
             {
-              value: "Weight",
+              value: "Sleep",
               connectnulldata: true,
             },
           ],
-          title: "Weight",
+          title: "Sleep",
         },
       ],
     },
@@ -62,7 +62,7 @@ const WChart = () => {
   const fetchData = async () => {
     const firebaseUser = firebase.auth().currentUser;
     const uid = firebaseUser?.uid;
-    const tempItems = await axios.get(`/getWeightData?uid=${uid}`);
+    const tempItems = await axios.get(`/getSleepData?uid=${uid}`);
     setItems(tempItems.data);
     const newTable = fusionDataStore.createDataTable(items, schema);
     const newConfig = {
@@ -73,23 +73,27 @@ const WChart = () => {
       dataFormat: "json",
       dataSource: {
         data: newTable,
+        chart: {
+          showLegend: 0,
+          showPlotBorder: 0,
+        },
         caption: {
-          text: "Your weight history",
+          text: "Your Sleep History",
         },
         subcaption: {
           text: "Based off your daily check entries",
         },
         yaxis: [
           {
-            columnname: "Weight",
+            columnname: "Sleep",
             plottype: "line",
             plot: [
               {
-                value: "Weight",
+                value: "Sleep",
                 connectnulldata: true,
               },
             ],
-            title: "Weight",
+            title: "Sleep",
           },
         ],
       },
@@ -99,9 +103,9 @@ const WChart = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <ReactFC {...chartConfig} />;
 };
 
-export default WChart;
+export default SleepChart;

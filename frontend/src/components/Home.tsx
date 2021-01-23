@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import ScrollLock from "react-scrolllock";
-import moment from 'moment';
-import '../styles/Home.css';
-import BodyMassIndex from './BodyMassIndex';
+import moment from "moment";
+import "../styles/Home.css";
 import background from "frontend/src/images/img.png";
 import { Button, Modal } from "react-bootstrap";
-import axios from 'axios';
-import 'firebase/auth';
-import firebase from 'firebase/app';
+import axios from "axios";
+import "firebase/auth";
+import firebase from "firebase/app";
 import Check from "./Check";
-import WChart from "./WChart";
-import SChart from "./SChart";
+import WeightChart from "./WeightChart";
+import SleepChart from "./SleepChart";
+import { Row, Container, Col } from "react-bootstrap";
 
 type User = {
   uid: string;
   firstName: string;
   lastName: string;
-}
+};
 
 const Home = () => {
-  const [firstName, setFirstName] = useState('Friend');
+  const [firstName, setFirstName] = useState("Friend");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -29,10 +28,13 @@ const Home = () => {
   const getWelcome = () => {
     const firebaseUser = firebase.auth().currentUser;
     const uid = firebaseUser?.uid;
-    axios.get<User>(`/getUser?uid=${uid}`)
-    .then((user) => { setFirstName(user.data.firstName)})
-    .catch((error) => console.log(error));
-  }
+    axios
+      .get<User>(`/getUser?uid=${uid}`)
+      .then((user) => {
+        setFirstName(user.data.firstName);
+      })
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => getWelcome(), []);
 
@@ -40,26 +42,27 @@ const Home = () => {
 
   return (
     <div className="home">
-        <img
-          src={background}
-          alt={""}
-          style={{
-            minHeight: "100%",
-            minWidth: "100%",
-            position: "fixed",
-            top: "0",
-            left: "0",
-            zIndex: -1,
-          }}
-        />
+      <img
+        src={background}
+        alt={""}
+        style={{
+          minHeight: "100%",
+          minWidth: "100%",
+          position: "fixed",
+          top: "0",
+          left: "0",
+          zIndex: -1,
+        }}
+      />
       {/* daily check */}
       <div className="container-fluid pt-3">
         <div className="row">
-          
           <div className="col">
-            <h1>{welcomeMessage} <span className="wave">👋</span></h1>
-            <h3>It is {moment().format(' h:mm A, MMMM Do YYYY')}</h3>
-            <br/>
+            <h1>
+              {welcomeMessage} <span className="wave">👋</span>
+            </h1>
+            <h3>It is {moment().format(" h:mm A, MMMM Do YYYY")}</h3>
+            <br />
             <div className="card text-left text-primary bg-light border-primary">
               <div className="d-flex align-items-center">
                 <div className="mr-auto p-2">
@@ -68,7 +71,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="p-4">
-                  <Button variant="primary" onClick={handleShow} size="lg" >
+                  <Button variant="primary" onClick={handleShow} size="lg">
                     Go
                   </Button>
                   <Modal show={show} onHide={handleClose}>
@@ -84,21 +87,17 @@ const Home = () => {
         </div>
       </div>
       {/* graph section */}
-      <div className="container-fluid pt-3">
-        <div className="row">
-          <div className="col">
-            <SChart />
-          </div>
+      <Container style={{ marginTop: "2.5%" }}>
+        <Row>
+          <Col>
+            <SleepChart />
+          </Col>
           {/* large middle panel -- graph */}
-          <div className="col">
-            <WChart />
-          </div>
-          {/* 3rd panel */}
-          <div className="col">
-            <BodyMassIndex />
-          </div>
-        </div>
-      </div>
+          <Col>
+            <WeightChart />
+          </Col>
+        </Row>
+      </Container>
       <br />
     </div>
   );

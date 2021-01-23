@@ -185,4 +185,21 @@ app.get("/getWeightData", async (req, res) => {
   res.send(data);
 });
 
+app.get("/getWeekSleep", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  const data: any[] = [];
+  const pastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  user.info.map((info) => {
+    const currentDate = new Date();
+    if (info.date.toDate() >= pastWeek) {
+      let entry: any = info.sleep;
+      data.push(entry);
+      return { entry };
+    }
+  });
+  res.send(data);
+});
+
 app.listen(port, () => console.log(`App listening on port ${port}!`));

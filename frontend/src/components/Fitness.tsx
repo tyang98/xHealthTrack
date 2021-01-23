@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
 
@@ -19,9 +19,8 @@ const Fitness = () => {
           }}
         />
       </ScrollLock>
-      <h1>Fitness</h1>
     </div>
-  )
-}
+  );
+};
 
 export default Fitness;
