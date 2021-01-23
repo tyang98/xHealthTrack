@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
+import { Row, Container, Col } from "react-bootstrap";
+import BodyMassIndex from "./BodyMassIndex";
 
 const Health = () => {
   return (
@@ -19,9 +21,11 @@ const Health = () => {
           }}
         />
       </ScrollLock>
-      <h1>Health</h1>
+      <Container style={{ marginTop: "5%" }}>
+        <BodyMassIndex />
+      </Container>
     </div>
-  )
-}
+  );
+};
 
 export default Health;

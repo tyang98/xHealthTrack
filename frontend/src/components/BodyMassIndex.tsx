@@ -45,7 +45,7 @@ const BodyMassIndex = () => {
 
   useEffect(() => {
     calculateBMI();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getBMIResults = (bmi: number) => {
     let bmiResults = {

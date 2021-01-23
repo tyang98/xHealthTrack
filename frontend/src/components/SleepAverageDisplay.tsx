@@ -14,7 +14,7 @@ const SleepAverageDisplay = ({
 }: avgSleepProps) => {
   return (
     <div className={"sleep-result alert " + alertClass}>
-      <div>{avgSleep}</div>
+      <div>{avgSleep} hrs</div>
       <div>{label}</div>
     </div>
   );

@@ -13,18 +13,17 @@ const BodyMassIndex = () => {
     const uid = firebaseUser?.uid;
     const tempItems = await axios.get(`/getWeekSleep?uid=${uid}`);
     setSleep(tempItems.data);
-    console.log(tempItems.data);
   };
 
   //average sleep in last 7 days?
-  const calculateSleep = () => {
-    fetchData();
-    const avg = sleep.reduce((a: number, b: number) => a + b, 0) / sleep.length;
-    setAvgSleep(avg.toFixed(2));
-    console.log(avgSleep);
-  };
 
   useEffect(() => {
+    const calculateSleep = () => {
+      fetchData();
+      const avg =
+        sleep.reduce((a: number, b: number) => a + b, 0) / sleep.length;
+      setAvgSleep(avg.toFixed(2));
+    };
     calculateSleep();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
