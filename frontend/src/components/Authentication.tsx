@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "firebase/auth";
 import Login from "./Login";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -35,16 +35,16 @@ const Authentication = () => {
   //   return firebase.auth().onAuthStateChanged(async (currentUser) => {
   //     if (currentUser !== null) {
   //       const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
-  //       console.log(user.data.firstName);
   //       setUser(user.data);
-  //     }
-  //     else {
+  //     } else {
   //       setUser(null);
   //     }
   //   });
-  // }
+  // };
 
-  // useEffect(() => onAuthStateChanged(), []);
+  // useEffect(() => {
+  //   setUserData(localStorage.getItem("user"));
+  // }, []);
 
   const register = (
     email: string,
@@ -86,22 +86,6 @@ const Authentication = () => {
       });
   };
 
-  const signout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setUser(null);
-        setMsg("Log Out Successful");
-        setSnackBarOpen(true);
-      })
-      .catch((error) => {
-        setMsg("Log Out failed");
-        console.log(error);
-        setSnackBarOpen(true);
-      });
-  };
-
   const login = (email: string, password: string) => {
     firebase
       .auth()
@@ -111,6 +95,7 @@ const Authentication = () => {
           const uid = userInfo.user?.uid;
           const user = await axios.get<User>(`/getUser?uid=${uid}`);
           setUser(user.data);
+          localStorage.setItem("user", JSON.stringify(userInfo.user));
         }
       })
       .catch((error) => {
@@ -132,6 +117,23 @@ const Authentication = () => {
       });
   };
 
+  const signout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        setUser(null);
+        localStorage.removeItem("user");
+        setMsg("Log Out Successful");
+        setSnackBarOpen(true);
+      })
+      .catch((error) => {
+        setMsg("Log Out failed");
+        console.log(error);
+        setSnackBarOpen(true);
+      });
+  };
+
   return (
     <div>
       <Switch>
@@ -139,7 +141,11 @@ const Authentication = () => {
           {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          {user ? <NavigationBar callback={signout} /> : <Login callback={login} />}
+          {localStorage.getItem("user") ? (
+            <NavigationBar callback={signout} />
+          ) : (
+            <Login callback={login} />
+          )}
         </Route>
       </Switch>
       <Snackbar
