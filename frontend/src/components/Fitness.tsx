@@ -1,6 +1,8 @@
 import React from "react";
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
+import { Container } from 'react-bootstrap';
+import Calendar from 'frontend/src/components/Calendar/Calendar';
 
 const Fitness = () => {
   return (
@@ -19,6 +21,9 @@ const Fitness = () => {
           }}
         />
       </ScrollLock>
+      <Container>
+        <Calendar />
+      </Container>
     </div>
   );
 };
