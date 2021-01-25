@@ -6,6 +6,9 @@ import Body from "./CalendarBody";
 import Head from "./CalendarHeader";
 import firebase from "firebase";
 import { useState } from "react";
+import EditActivity from "./EditActivity";
+import AddActivity from "./AddActivity";
+import ActivityList from "./ActivityList";
 
 const Calendar = () => {
   const firebaseUser = firebase.auth().currentUser;
@@ -92,6 +95,55 @@ const Calendar = () => {
           activeDays={activeDays}
         />
       </Grid>
+      <Grid item xs={12} md={4} lg={3}>
+        <Paper className="paper">
+          {editing ? (
+            <>
+              <h3>
+                Edit activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
+              </h3>
+              <EditActivity
+                selectedDay={selectedDay}
+                setOpenSnackbar={setOpenSnackbar}
+                setSnackbarMsg={setSnackbarMsg}
+              />
+            </>
+          ) : (
+            <>
+              <h3>
+                Add activity on {selectedDay.month + 1}/{selectedDay.day}{" "}
+              </h3>
+              <AddActivity
+                selectedDay={selectedDay}
+                setOpenSnackbar={setOpenSnackbar}
+                setSnackbarMsg={setSnackbarMsg}
+              />
+            </>
+          )}
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={7}>
+        <Paper className="paper">
+          <h3> 
+            Activities on {selectedDay.month + 1}/{selectedDay.day} </h3>
+          <ActivityList
+            loading={loading}
+            activities={activities}
+            setOpenSnackbar={setOpenSnackbar}
+            setSnackbarMsg={setSnackbarMsg}
+            editActivity={editActivity}
+            setEditing={setEditing}
+          />
+        </Paper>
+      </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={openSnackbar}
+        message={snackbarMsg}
+      />
     </Grid>
   );
 };

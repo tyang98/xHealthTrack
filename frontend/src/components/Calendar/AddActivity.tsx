@@ -14,7 +14,7 @@ import firebase from "firebase";
 type AddActivityProps = {
   selectedDay: any;
   setOpenSnackbar: (e: boolean) => void;
-  setSnackbarMsg: (e: string) => void;
+  setSnackbarMsg: any;
 };
 
 const useStyles = makeStyles((theme) => ({

@@ -14,7 +14,7 @@ import firebase from "firebase";
 type EditActivityProps = {
   selectedDay: any;
   setOpenSnackbar: (e: boolean) => void;
-  setSnackbarMsg: (e: string) => void;
+  setSnackbarMsg: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -62,14 +62,14 @@ const EditActivity = ({
 
   const isValid = activity.name === "";
 
-  const updateActivity = (uid, activity, activityKey) => {
-    const ref = this.db.ref().child(`users/${uid}/activities/${activityKey}`);
-    ref.update(activity);
-    };
+  // const updateActivity = (uid, activity, activityKey) => {
+  //   const ref = this.db.ref().child(`users/${uid}/activities/${activityKey}`);
+  //   ref.update(activity);
+  //   };
 
   const handleSubmit = () => {
     if (firebaseUser) {
-      firebase.updateActivity(uid, activity);
+      //firebase.updateActivity(uid, activity);
       setActivity(defaultActivity);
       // Show notification
       setOpenSnackbar(true);
