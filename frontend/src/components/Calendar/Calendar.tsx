@@ -20,10 +20,23 @@ const Calendar = () => {
   const [date, setDate] = useState(moment());
   const [toggle, setToggle] = useState(false);
   const [selectedDay, setSelected] = useState(defaultSelectedDay);
+
+  /*** ADDING AN ACTIVITY ***/
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState(null);
+
+  /*** ACTIVITY LIST ***/
+  const [activities, setActivities] = useState(true);
+  const [loading, setLoading] = useState([]);
   const [activeDays, setActiveDays] = useState([]);
 
-  const currentMonth = date.toDate().getMonth();
-  const currentYear = date.toDate().getFullYear();
+  /*** EDIT AN ACTIVITY ***/
+  const [editing, setEditing] = useState(false);
+  const [activity, setActivity] = useState(null);
+  const [activityKey, setActivityKey] = useState(null);
+
+  const currentMonth = () => date.format("MMMM");
+  const currentYear = () => date.format("YYYY");
   const currentMonthNum = () => date.month();
   const daysInMonth = () => date.daysInMonth();
   const currentDay = () => date.format("D");
@@ -48,6 +61,12 @@ const Calendar = () => {
   };
 
   const firstDay = () => moment(date).startOf("month").format("d");
+
+  const editActivity = (activity: any, i: number) => {
+    //setActivityKey(Object.keys(activities)[i]);
+    setEditing(true);
+    setActivity(activity);
+  };
 
   return (
     <Grid container spacing={3}>

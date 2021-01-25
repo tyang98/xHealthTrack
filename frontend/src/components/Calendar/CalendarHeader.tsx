@@ -12,12 +12,12 @@ import "../../styles/Calendar.css";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 type CalendarHeaderProps = {
-  allMonths: string[],
-  setMonth: (month: string) => void,
-  toggleMonthSelect: () => void,
-  currentMonth: any,
-  currentYear: any,
-  showMonthTable: boolean,
+  allMonths: string[];
+  setMonth: (month: string) => void;
+  toggleMonthSelect: () => void;
+  currentMonth: () => any;
+  currentYear: () => any;
+  showMonthTable: boolean;
 };
 
 const CalendarHeader = ({
@@ -35,7 +35,6 @@ const CalendarHeader = ({
   allMonths.map((month) =>
     months.push(
       <TableCell
-        colSpan="2"
         className="month-cell"
         style={{ textAlign: "center" }}
         key={month}
@@ -66,20 +65,18 @@ const CalendarHeader = ({
           <TableRow>
             <TableCell
               className="toggle-month"
-              colSpan="4"
               onClick={() => toggleMonthSelect()}
             >
               {currentMonth()}
               <ArrowDropDownIcon className="arrow-icon" />
             </TableCell>
-            <TableCell colSpan="4">{currentYear()}</TableCell>
+            <TableCell>{currentYear()}</TableCell>
           </TableRow>
         </TableHead>
         {showMonthTable ? (
           <TableBody>
             <TableRow>
               <TableCell
-                colSpan="5"
                 style={{ textAlign: "center" }}
                 className="select-month-title"
               >

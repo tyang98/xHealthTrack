@@ -12,16 +12,16 @@ import {
 import "../../styles/Calendar.css";
 
 type CalendarBodyProps = {
-  firstDayOfMonth: () => any,
-  daysInMonth: () => number,
-  currentDay: () => any,
-  currentMonth: any,
-  currentMonthNum: () => number,
-  selectedDay: any,
-  activeDays: any[],
-  setSelectedDay: any,
-  actualMonth: () => any,
-  weekdays: string[],
+  firstDayOfMonth: () => any;
+  daysInMonth: () => number;
+  currentDay: () => any;
+  currentMonth: () => any;
+  currentMonthNum: () => number;
+  selectedDay: any;
+  activeDays: any[];
+  setSelectedDay: any;
+  actualMonth: () => any;
+  weekdays: string[];
 };
 
 const CalendarBody = ({
@@ -46,10 +46,11 @@ const CalendarBody = ({
     let currDay, selectDay, activeDay;
 
     // Check if day is today
-    if (currentDay() == d && currentMonth() == actualMonth()) currDay = "today";
+    if (currentDay() === d && currentMonth() === actualMonth())
+      currDay = "today";
 
     // Check if day is selected day
-    if (selectedDay.day == d && currentMonthNum() == selectedDay.month)
+    if (selectedDay.day === d && currentMonthNum() === selectedDay.month)
       selectDay = "selected-day";
 
     // Check if day found in this month active days
