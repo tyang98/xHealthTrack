@@ -111,7 +111,7 @@ const Calendar = () => {
           ) : (
             <>
               <h3>
-                Add activity on {selectedDay.month + 1}/{selectedDay.day}{" "}
+                Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
               </h3>
               <AddActivity
                 selectedDay={selectedDay}
@@ -124,8 +124,9 @@ const Calendar = () => {
       </Grid>
       <Grid item xs={12} md={7}>
         <Paper className="paper">
-          <h3> 
-            Activities on {selectedDay.month + 1}/{selectedDay.day} </h3>
+          <h3>
+            Activities on {selectedDay.month + 1}/{selectedDay.day}
+          </h3>
           <ActivityList
             loading={loading}
             activities={activities}
