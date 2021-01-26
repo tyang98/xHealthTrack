@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import cors from "cors";
-import { table } from "console";
 
 // Path to wherever you put your service-account.json
 const serviceAccount = require("../backend/service-account.json");
@@ -19,6 +18,14 @@ app.use(bodyParser.json());
 const port = 8080;
 app.use(cors());
 //const port = 8080;
+
+
+type Activity = {
+  name: string;
+  type: number;
+  duration: number;
+  date: string;
+};
 
 type DatedInfo = {
   date: Date;
@@ -207,14 +214,16 @@ app.get("/getActivities", async (req, res) => {
   const uid = req.query.uid as string;
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
-  const data: any[] = [];
+  const data: Activity[] = [];
 
   user.activities.map((act: any) => {
     let obj = act.activity;
-    data.push(obj);
-    return { obj };
+    if (obj != null) {
+      data.push(obj);
+      return { obj };
+    }
   });
-  
+
   res.send(data);
 })
 
@@ -223,14 +232,14 @@ app.put("/addActivity", async (req, res) => {
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
   let userActivities = user.activities;
-  const activity = req.body;
+  const activity: Activity = req.body;
   userActivities.push(activity);
-  const updateActivities = { activities: userActivities }
+  const updateActivities = { activities: userActivities };
   await usersCollection
     .doc(uid)
     .update(updateActivities)
     .catch((error) => console.log(error));
-    res.send("Added!");
+    res.send("Added Activity!");
 })
 
 app.put("/updateActivity", async (req, res) => {
@@ -238,13 +247,31 @@ app.put("/updateActivity", async (req, res) => {
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
   let userActivities = user.activities;
-  const activity = req.body;
-  userActivities.push(activity);
+ 
+  const { newActivity, activityKey } = req.body;
+  userActivities[activityKey].activity = newActivity;
+
+  const updateActivities = { activities: userActivities };
+
   await usersCollection
     .doc(uid)
-    .update(userActivities)
+    .update(updateActivities)
     .catch((error) => console.log(error));
-    res.send("Added!");
+    res.send("Updated Activity!");
+})
+
+app.put("/deleteActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  const { activityKey } = req.body;
+  let userActivities = user.activities.filter((_:Activity,i:number) => i !== activityKey);
+  const updateActivities = { activities: userActivities }
+  await usersCollection
+    .doc(uid)
+    .update(updateActivities)
+    .catch((error) => console.log(error));
+    res.send("Deleted Activity!");
 })
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

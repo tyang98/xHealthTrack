@@ -9,15 +9,27 @@ import AddActivity from "./AddActivity";
 import ActivityList from "./ActivityList";
 import axios from "axios";
 
+type Activity = {
+  name: string;
+  type: number;
+  duration: number;
+  date: string;
+};
+
 const Calendar = () => {
   const firebaseUser = firebase.auth().currentUser;
   const uid = firebaseUser?.uid;
 
   const updateActivity = (
     uid: string,
-    activity: any,
+    newActivity: any,
     activityKey: number
-  ) => {};
+  ) => {
+    axios
+      .put(`/updateActivity?uid=${uid}`, { newActivity, activityKey })
+      .then(() => console.log("updated activity!"))
+      .catch((error) => console.log(`${activity}`));
+  };
 
   let defaultSelectedDay = {
     day: moment().format("D"),
@@ -75,7 +87,7 @@ const Calendar = () => {
   };
 
   const editActivity = (activity: any, i: number) => {
-    setActivityKey(Object.keys(activities)[i]);
+    setActivityKey(i);
     setEditing(true);
     setActivity(activity);
   };
@@ -86,10 +98,11 @@ const Calendar = () => {
     let response = await axios.get(`/getActivities?uid=${uid}`);
     const activitiesArr = response.data;
     let updatedValues: any[] = [];
-    activitiesArr.forEach((val: any) => {
+    activitiesArr.forEach((val: Activity) => {
       if (val.date === queryDate) {
         updatedValues.push(val);
         setLoading(false);
+        //setEditing(false);
       }
     });
 
@@ -103,7 +116,7 @@ const Calendar = () => {
     let response = await axios.get(`/getActivities?uid=${uid}`);
     const activitiesArr = response.data;
 
-    const arr = activitiesArr.map((obj: any) => {
+    const arr = activitiesArr.map((obj: Activity) => {
       return obj.date.length === 8
         ? obj.date.slice(0, 3)
         : obj.date.slice(0, 4);
@@ -178,7 +191,6 @@ const Calendar = () => {
           <ActivityList
             loading={loading}
             activities={activities}
-            updateActivity={updateActivity}
             setOpenSnackbar={setOpenSnackbar}
             setSnackbarMsg={setSnackbarMsg}
             editActivity={editActivity}

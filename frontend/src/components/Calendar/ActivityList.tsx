@@ -14,11 +14,11 @@ import {
 import firebase from "firebase/app";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import axios from "axios";
 
 type ActivityListProps = {
   loading: any;
   activities: any[];
-  updateActivity: any;
   editActivity: any;
   setOpenSnackbar: (e: boolean) => void;
   setSnackbarMsg: any;
@@ -28,7 +28,6 @@ type ActivityListProps = {
 const ActivityList = ({
   loading,
   activities,
-  updateActivity,
   editActivity,
   setOpenSnackbar,
   setSnackbarMsg,
@@ -38,21 +37,15 @@ const ActivityList = ({
   const uid = firebaseUser?.uid;
 
   const deleteActivity = (i: number) => {
-    // Get key of activity in firebase
-    const activityKey = Object.keys(activities)[i];
-    // Connect to our firebase API
-    const emptyActivity = {
-      date: null,
-      duration: null,
-      type: null,
-      name: null,
-    };
-
-    updateActivity(uid, emptyActivity, activityKey);
+    const activityKey = i;
+    axios
+      .put(`/deleteActivity?uid=${uid}`, { activityKey })
+      .then(() => console.log("deleted activity!"))
+      .catch((error) => console.log(error));
 
     // Show notification
     setOpenSnackbar(true);
-    setSnackbarMsg("Deleted activity");
+    setSnackbarMsg("Deleted Activity! Refresh to see changes.");
     setTimeout(() => {
       setOpenSnackbar(false);
     }, 3000);

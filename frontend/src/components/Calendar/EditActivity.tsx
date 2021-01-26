@@ -72,16 +72,19 @@ const EditActivity = ({
   const isValid = newActivity.name === "";
 
   const handleSubmit = () => {
-    if (firebaseUser) {
-      updateActivity(uid, newActivity, activityKey);
-      setNewActivity(defaultActivity);
-      // Show notification
-      setOpenSnackbar(true);
-      setSnackbarMsg("Added activity");
-      setTimeout(() => {
-        setOpenSnackbar(false);
-      }, 3000);
-    }
+    updateActivity(uid, newActivity, activityKey);
+    console.log(newActivity);
+    console.log(activityKey);
+    setNewActivity(defaultActivity);
+    console.log(newActivity);
+    setEditing(false);
+    // Show notification
+    setOpenSnackbar(true);
+    console.log(newActivity);
+    setSnackbarMsg("Updated Activity! Refresh to see changes.");
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 3000);
   };
 
   return (

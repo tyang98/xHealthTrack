@@ -78,7 +78,7 @@ const AddActivity = ({
       setActivity(defaultActivity);
       // Show notification
       setOpenSnackbar(true);
-      setSnackbarMsg("Added activity");
+      setSnackbarMsg("Added Activity! Refresh to see changes.");
       setTimeout(() => {
         setOpenSnackbar(false);
       }, 3000);
