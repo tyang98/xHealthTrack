@@ -25,7 +25,7 @@ const Check = ({ callback }: CheckProps) => {
     setSleep(+event.target.value);
   };
 
-  const onSubmit = (weight: number, height: number) => {
+  const onSubmit = (weight: number, sleep: number) => {
     const firebaseUser = firebase.auth().currentUser;
     const uid = firebaseUser?.uid;
     // const user = axios.get<User>(`/getUser?uid=${uid}`);

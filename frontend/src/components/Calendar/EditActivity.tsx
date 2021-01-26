@@ -47,10 +47,10 @@ const EditActivity = ({
 
   // Set default activity object
   const defaultActivity = {
-    name: "",
-    type: 1,
-    duration: 60,
-    date: queryDate,
+    name: activity.name,
+    type: activity.type,
+    duration: activity.duration,
+    date: activity.date,
   };
 
   const [newActivity, setNewActivity] = useState(defaultActivity);

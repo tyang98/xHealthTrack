@@ -53,7 +53,7 @@ app.post("/createUser", async (req, res) => {
     firstName: firstName,
     lastName: lastName,
     info: [],
-    activities: 'not set'
+    activities: []
   };
   await usersCollection.doc(uid as string).set(firebaseUser);
   res.send(uid);
@@ -194,7 +194,6 @@ app.get("/getWeekSleep", async (req, res) => {
   const data: any[] = [];
   const pastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   user.info.map((info) => {
-    const currentDate = new Date();
     if (info.date.toDate() >= pastWeek) {
       let entry: any = info.sleep;
       data.push(entry);
@@ -203,5 +202,46 @@ app.get("/getWeekSleep", async (req, res) => {
   });
   res.send(data);
 });
+
+app.get("/getActivities", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  const data: any[] = [];
+  for (let activity of user.activities) {
+    data.push(activity);
+    return { activity };
+  }
+  res.send(data);
+
+})
+
+app.put("/addActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let userActivities = user.activities;
+  const activity = req.body;
+  userActivities.push(activity);
+  await usersCollection
+    .doc(uid)
+    .update(userActivities)
+    .catch((error) => console.log(error));
+    res.send("Added!");
+})
+
+app.put("/updateActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let userActivities = user.activities;
+  const activity = req.body;
+  userActivities.push(activity);
+  await usersCollection
+    .doc(uid)
+    .update(userActivities)
+    .catch((error) => console.log(error));
+    res.send("Added!");
+})
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

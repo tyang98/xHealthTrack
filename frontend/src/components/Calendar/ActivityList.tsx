@@ -65,7 +65,7 @@ const ActivityList = ({
     <>
       {loading === true ? <img src={loader} alt={loader}></img> : ""}
 
-      {activities === "not set" || activities === null ? (
+      {activities === [] || activities === null ? (
         <p>No activities added yet.</p>
       ) : (
         <TableContainer component={Paper}>

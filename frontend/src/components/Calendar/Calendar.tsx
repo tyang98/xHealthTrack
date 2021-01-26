@@ -96,6 +96,7 @@ const Calendar = () => {
       .on("value", (snapshot) => {
         let data = snapshot.val();
         setActivities(data);
+        console.log(data);
         setLoading(false);
         // setEditing(false); Add later
       });
