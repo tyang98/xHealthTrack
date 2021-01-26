@@ -3,11 +3,11 @@ import moment from "moment";
 import { Grid, Paper, Snackbar } from "@material-ui/core";
 import Body from "./CalendarBody";
 import Head from "./CalendarHeader";
-import Authentication from "../Authentication";
 import firebase from "firebase/app";
 import EditActivity from "./EditActivity";
 import AddActivity from "./AddActivity";
 import ActivityList from "./ActivityList";
+import axios from "axios";
 
 const Calendar = () => {
   const firebaseUser = firebase.auth().currentUser;
