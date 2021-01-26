@@ -12,7 +12,11 @@ import {
 import firebase from "firebase";
 
 type EditActivityProps = {
+  activity: any;
+  activityKey: any;
   selectedDay: any;
+  setEditing: any;
+  updateActivity: any;
   setOpenSnackbar: (e: boolean) => void;
   setSnackbarMsg: any;
 };
@@ -27,11 +31,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditActivity = ({
+  activity,
+  activityKey,
   selectedDay,
+  setEditing,
+  updateActivity,
   setOpenSnackbar,
   setSnackbarMsg,
 }: EditActivityProps) => {
   const firebaseUser = firebase.auth().currentUser;
+  const uid = firebaseUser?.uid;
   const classes = useStyles();
   selectedDay.year = new Date().getFullYear();
   let queryDate = `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}`;
@@ -44,12 +53,12 @@ const EditActivity = ({
     date: queryDate,
   };
 
-  const [activity, setActivity] = useState(defaultActivity);
+  const [newActivity, setNewActivity] = useState(defaultActivity);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setActivity({
-      ...activity,
+    setNewActivity({
+      ...newActivity,
       date: queryDate,
       [name]: value,
     });
@@ -57,20 +66,15 @@ const EditActivity = ({
 
   const handleSlider = (e: any) => {
     const duration = e.target.getAttribute("aria-valuenow");
-    setActivity({ ...activity, duration: duration });
+    setNewActivity({ ...newActivity, duration: duration });
   };
 
-  const isValid = activity.name === "";
-
-  // const updateActivity = (uid, activity, activityKey) => {
-  //   const ref = this.db.ref().child(`users/${uid}/activities/${activityKey}`);
-  //   ref.update(activity);
-  //   };
+  const isValid = newActivity.name === "";
 
   const handleSubmit = () => {
     if (firebaseUser) {
-      //firebase.updateActivity(uid, activity);
-      setActivity(defaultActivity);
+      updateActivity(uid, newActivity, activityKey);
+      setNewActivity(defaultActivity);
       // Show notification
       setOpenSnackbar(true);
       setSnackbarMsg("Added activity");
@@ -90,7 +94,7 @@ const EditActivity = ({
           required
           fullWidth
           label="Activity name"
-          value={activity.name}
+          value={newActivity.name}
           name="name"
           onChange={handleChange}
         />
@@ -101,7 +105,7 @@ const EditActivity = ({
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={activity.type}
+            value={newActivity.type}
             style={{ minWidth: "100%" }}
             name="type"
             onChange={handleChange}
@@ -115,7 +119,7 @@ const EditActivity = ({
           Duration
         </Typography>
         <Slider
-          defaultValue={activity.duration}
+          defaultValue={newActivity.duration}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
           step={10}

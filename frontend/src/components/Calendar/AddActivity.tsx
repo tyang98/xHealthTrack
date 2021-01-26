@@ -12,6 +12,7 @@ import {
 import firebase from "firebase";
 
 type AddActivityProps = {
+  addActivity: any;
   selectedDay: any;
   setOpenSnackbar: (e: boolean) => void;
   setSnackbarMsg: any;
@@ -27,11 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddActivity = ({
+  addActivity,
   selectedDay,
   setOpenSnackbar,
   setSnackbarMsg,
 }: AddActivityProps) => {
   const firebaseUser = firebase.auth().currentUser;
+  const uid = firebaseUser?.uid;
   const classes = useStyles();
   selectedDay.year = new Date().getFullYear();
   let queryDate = `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}`;
@@ -65,7 +68,7 @@ const AddActivity = ({
   // Add the activity to firebase via the API made in this app
   const handleSubmit = () => {
     if (firebaseUser) {
-      //firebase.addActivity(uid, activity);
+      addActivity(uid, activity);
       setActivity(defaultActivity);
       // Show notification
       setOpenSnackbar(true);

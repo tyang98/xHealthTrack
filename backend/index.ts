@@ -36,6 +36,7 @@ type FirebaseUser = {
   firstName: string;
   lastName: string;
   info: FirebaseDatedInfo[];
+  activities: any;
 };
 
 type User = FirebaseUser & {
@@ -51,7 +52,8 @@ app.post("/createUser", async (req, res) => {
   const firebaseUser = {
     firstName: firstName,
     lastName: lastName,
-    FirebaseDatedInfo: [],
+    info: [],
+    activities: 'not set'
   };
   await usersCollection.doc(uid as string).set(firebaseUser);
   res.send(uid);

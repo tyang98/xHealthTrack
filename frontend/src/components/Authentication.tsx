@@ -139,7 +139,11 @@ const Authentication = () => {
           {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          {user ? <NavigationBar callback={signout} /> : <Login callback={login} />}
+          {user ? (
+            <NavigationBar callback={signout} />
+          ) : (
+            <Login callback={login} />
+          )}
         </Route>
       </Switch>
       <Snackbar

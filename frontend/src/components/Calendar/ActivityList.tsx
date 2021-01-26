@@ -11,33 +11,32 @@ import {
   Paper,
 } from "@material-ui/core";
 
+import firebase from "firebase/app";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 type ActivityListProps = {
   loading: any;
   activities: any;
+  updateActivity: any;
   editActivity: any;
   setOpenSnackbar: (e: boolean) => void;
   setSnackbarMsg: any;
   setEditing: (e: boolean) => void;
 };
 
-// type Activity = {
-//   date: any;
-//   duration: any;
-//   type: any;
-//   name: any;
-// };
-
 const ActivityList = ({
   loading,
   activities,
+  updateActivity,
   editActivity,
   setOpenSnackbar,
   setSnackbarMsg,
   setEditing,
 }: ActivityListProps) => {
+  const firebaseUser = firebase.auth().currentUser;
+  const uid = firebaseUser?.uid;
+
   const deleteActivity = (i: number) => {
     // Get key of activity in firebase
     const activityKey = Object.keys(activities)[i];
@@ -49,11 +48,7 @@ const ActivityList = ({
       name: null,
     };
 
-    // props.firebase.updateActivity(
-    //   props.authUser.uid,
-    //   emptyActivity,
-    //   activityKey
-    // );
+    updateActivity(uid, emptyActivity, activityKey);
 
     // Show notification
     setOpenSnackbar(true);
