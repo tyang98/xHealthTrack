@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import cors from "cors";
-import { table } from "console";
 
 // Path to wherever you put your service-account.json
 const serviceAccount = require("../backend/service-account.json");
@@ -20,6 +19,14 @@ const port = 8080;
 app.use(cors());
 //const port = 8080;
 
+
+type Activity = {
+  name: string;
+  type: number;
+  duration: number;
+  date: string;
+};
+
 type DatedInfo = {
   date: Date;
   weight: number;
@@ -36,6 +43,7 @@ type FirebaseUser = {
   firstName: string;
   lastName: string;
   info: FirebaseDatedInfo[];
+  activities: any;
 };
 
 type User = FirebaseUser & {
@@ -51,7 +59,8 @@ app.post("/createUser", async (req, res) => {
   const firebaseUser = {
     firstName: firstName,
     lastName: lastName,
-    FirebaseDatedInfo: [],
+    info: [],
+    activities: []
   };
   await usersCollection.doc(uid as string).set(firebaseUser);
   res.send(uid);
@@ -192,7 +201,6 @@ app.get("/getWeekSleep", async (req, res) => {
   const data: any[] = [];
   const pastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   user.info.map((info) => {
-    const currentDate = new Date();
     if (info.date.toDate() >= pastWeek) {
       let entry: any = info.sleep;
       data.push(entry);
@@ -201,5 +209,69 @@ app.get("/getWeekSleep", async (req, res) => {
   });
   res.send(data);
 });
+
+app.get("/getActivities", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  const data: Activity[] = [];
+
+  user.activities.map((act: any) => {
+    let obj = act.activity;
+    if (obj != null) {
+      data.push(obj);
+      return { obj };
+    }
+  });
+
+  res.send(data);
+})
+
+app.put("/addActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let userActivities = user.activities;
+  const activity: Activity = req.body;
+  userActivities.push(activity);
+  const updateActivities = { activities: userActivities };
+  await usersCollection
+    .doc(uid)
+    .update(updateActivities)
+    .catch((error) => console.log(error));
+    res.send("Added Activity!");
+})
+
+app.put("/updateActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  let userActivities = user.activities;
+ 
+  const { newActivity, activityKey } = req.body;
+  userActivities[activityKey].activity = newActivity;
+
+  const updateActivities = { activities: userActivities };
+
+  await usersCollection
+    .doc(uid)
+    .update(updateActivities)
+    .catch((error) => console.log(error));
+    res.send("Updated Activity!");
+})
+
+app.put("/deleteActivity", async (req, res) => {
+  const uid = req.query.uid as string;
+  const userDoc = await usersCollection.doc(uid).get();
+  const user = userDoc.data() as User;
+  const { activityKey } = req.body;
+  let userActivities = user.activities.filter((_:Activity,i:number) => i !== activityKey);
+  const updateActivities = { activities: userActivities }
+  await usersCollection
+    .doc(uid)
+    .update(updateActivities)
+    .catch((error) => console.log(error));
+    res.send("Deleted Activity!");
+})
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
