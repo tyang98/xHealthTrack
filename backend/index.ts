@@ -208,12 +208,14 @@ app.get("/getActivities", async (req, res) => {
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
   const data: any[] = [];
-  for (let activity of user.activities) {
-    data.push(activity);
-    return { activity };
-  }
-  res.send(data);
 
+  user.activities.map((act: any) => {
+    let obj = act.activity;
+    data.push(obj);
+    return { obj };
+  });
+  
+  res.send(data);
 })
 
 app.put("/addActivity", async (req, res) => {

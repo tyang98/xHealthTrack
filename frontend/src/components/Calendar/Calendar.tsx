@@ -13,12 +13,11 @@ const Calendar = () => {
   const firebaseUser = firebase.auth().currentUser;
   const uid = firebaseUser?.uid;
 
-  const db = firebase.database();
-
-  const updateActivity = (uid: string, activity: any, activityKey: number) => {
-    const ref = db.ref().child(`users/${uid}/activities/${activityKey}`);
-    ref.update(activity);
-  };
+  const updateActivity = (
+    uid: string,
+    activity: any,
+    activityKey: number
+  ) => {};
 
   let defaultSelectedDay = {
     day: moment().format("D"),
@@ -81,42 +80,40 @@ const Calendar = () => {
     setActivity(activity);
   };
 
-  const retrieveData = () => {
+  const retrieveData = async () => {
     let queryDate = `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}`;
 
-    let ref = db.ref().child(`users/${uid}/activities`);
-    ref
-      .orderByChild("date")
-      .equalTo(queryDate)
-      .on("value", (snapshot) => {
-        let data = snapshot.val();
-        setActivities(data);
-        console.log(data);
+    let response = await axios.get(`/getActivities?uid=${uid}`);
+    const activitiesArr = response.data;
+
+    activitiesArr.forEach((val: any) => {
+      if (val.date === queryDate) {
+        setActivities(val);
+        console.log(val);
         setLoading(false);
-        // setEditing(false); Add later
-      });
+      }
+    });
 
     // Update active days
     retrieveActiveDays();
   };
 
-  const retrieveActiveDays = () => {
-    let ref = db.ref().child(`users/${uid}/activities`);
-    ref.on("value", (snapshot) => {
-      let data = snapshot.val();
-      const values = Object.values(data);
-      // Store all active day/month combinations in array for calendar
-      const arr = values.map((obj: any) => {
-        return obj.date.length === 8
-          ? obj.date.slice(0, 3)
-          : obj.date.slice(0, 4);
-      });
-      console.log(arr);
-      setActiveDays(arr);
+  const retrieveActiveDays = async () => {
+    let response = await axios.get(`/getActivities?uid=${uid}`);
+    const activitiesArr = response.data;
+
+    const arr = activitiesArr.map((obj: any) => {
+      return obj.date.length === 8
+        ? obj.date.slice(0, 3)
+        : obj.date.slice(0, 4);
     });
+    console.log(arr);
+    setActiveDays(arr);
   };
 
-  useEffect(() => retrieveData(), [selectedDay]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    retrieveData();
+  }, [selectedDay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Grid container spacing={3}>
