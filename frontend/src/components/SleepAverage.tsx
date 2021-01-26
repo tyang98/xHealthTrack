@@ -7,25 +7,10 @@ import SleepAverageDisplay from "./SleepAverageDisplay";
 const BodyMassIndex = () => {
   const [sleep, setSleep] = useState([] as any);
   const [avgSleep, setAvgSleep] = useState("0.0");
-
-  const fetchData = async () => {
-    const firebaseUser = firebase.auth().currentUser;
-    const uid = firebaseUser?.uid;
-    const tempItems = await axios.get(`/getWeekSleep?uid=${uid}`);
-    setSleep(tempItems.data);
-  };
-
-  //average sleep in last 7 days?
-
-  useEffect(() => {
-    const calculateSleep = () => {
-      fetchData();
-      const avg =
-        sleep.reduce((a: number, b: number) => a + b, 0) / sleep.length;
-      setAvgSleep(avg.toFixed(2));
-    };
-    calculateSleep();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const [results, setResults] = useState({
+    label: "",
+    alertClass: "",
+  });
 
   const getSleepResults = (sleep: number) => {
     let sleepResults = {
@@ -49,7 +34,23 @@ const BodyMassIndex = () => {
     return sleepResults;
   };
 
-  let results = getSleepResults(parseFloat(avgSleep));
+  const fetchData = async () => {
+    const firebaseUser = firebase.auth().currentUser;
+    const uid = firebaseUser?.uid;
+    const tempItems = await axios.get(`/getWeekSleep?uid=${uid}`);
+    setSleep(tempItems.data);
+    const avg =
+      tempItems.data.reduce((a: number, b: number) => a + b, 0) /
+      tempItems.data.length;
+    setAvgSleep(avg.toFixed(2));
+    setResults(getSleepResults(parseFloat(avgSleep)));
+    console.log(results);
+    console.log(avgSleep);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>

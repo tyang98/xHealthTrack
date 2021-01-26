@@ -225,6 +225,7 @@ app.get("/getActivities", async (req, res) => {
       return { obj };
     }
   });
+  console.log(user.activities);
 
   res.send(data);
 })
