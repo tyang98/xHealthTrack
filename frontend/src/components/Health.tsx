@@ -1,7 +1,7 @@
 import React from "react";
 import ScrollLock from "react-scrolllock";
 import background from "frontend/src/images/img.png";
-import { Row, Container, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import BodyMassIndex from "./BodyMassIndex";
 
 const Health = () => {

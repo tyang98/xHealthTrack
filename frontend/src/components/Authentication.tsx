@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "firebase/auth";
 import Login from "./Login";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -30,21 +30,6 @@ const Authentication = () => {
   const [user, setUser] = useState<User | null>(null);
   const [msg, setMsg] = useState("");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
-
-  // const onAuthStateChanged = () => {
-  //   return firebase.auth().onAuthStateChanged(async (currentUser) => {
-  //     if (currentUser !== null) {
-  //       const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
-  //       setUser(user.data);
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   setUserData(localStorage.getItem("user"));
-  // }, []);
 
   const register = (
     email: string,
