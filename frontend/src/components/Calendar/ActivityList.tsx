@@ -17,7 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 
 type ActivityListProps = {
   loading: any;
-  activities: any;
+  activities: any[];
   updateActivity: any;
   editActivity: any;
   setOpenSnackbar: (e: boolean) => void;
@@ -79,7 +79,7 @@ const ActivityList = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.values(activities).map((activity: any, i: number) => {
+              {activities.map((activity: any, index: number) => {
                 let { name, type, duration } = activity;
                 switch (activity.type) {
                   case 1:
@@ -95,14 +95,14 @@ const ActivityList = ({
                     type = "Not set";
                 }
                 return (
-                  <TableRow key={i}>
+                  <TableRow key={index}>
                     <TableCell>{name}</TableCell>
                     <TableCell>{type}</TableCell>
                     <TableCell>{duration}</TableCell>
                     <TableCell>
-                      <DeleteIcon onClick={(e) => deleteActivity(i)} />
+                      <DeleteIcon onClick={(e) => deleteActivity(index)} />
                       <EditIcon
-                        onClick={(e) => editActivity(activity, i)}
+                        onClick={(e) => editActivity(activity, index)}
                         style={{ marginLeft: "20px" }}
                       />
                     </TableCell>

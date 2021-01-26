@@ -38,7 +38,7 @@ const Calendar = () => {
   const [snackbarMsg, setSnackbarMsg] = useState(null);
 
   /*** ACTIVITY LIST ***/
-  const [activities, setActivities] = useState(true);
+  const [activities, setActivities] = useState<any>([]);
   const [loading, setLoading] = useState<any>([]);
   const [activeDays, setActiveDays] = useState<any>([]);
 
@@ -85,14 +85,15 @@ const Calendar = () => {
 
     let response = await axios.get(`/getActivities?uid=${uid}`);
     const activitiesArr = response.data;
-
+    let updatedValues: any[] = [];
     activitiesArr.forEach((val: any) => {
       if (val.date === queryDate) {
-        setActivities(val);
-        console.log(val);
+        updatedValues.push(val);
         setLoading(false);
       }
     });
+
+    setActivities(updatedValues);
 
     // Update active days
     retrieveActiveDays();
@@ -107,7 +108,6 @@ const Calendar = () => {
         ? obj.date.slice(0, 3)
         : obj.date.slice(0, 4);
     });
-    console.log(arr);
     setActiveDays(arr);
   };
 
