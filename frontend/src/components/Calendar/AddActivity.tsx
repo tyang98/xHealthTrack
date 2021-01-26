@@ -10,9 +10,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import firebase from "firebase";
+import axios from "axios";
 
 type AddActivityProps = {
-  addActivity: any;
   selectedDay: any;
   setOpenSnackbar: (e: boolean) => void;
   setSnackbarMsg: any;
@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddActivity = ({
-  addActivity,
   selectedDay,
   setOpenSnackbar,
   setSnackbarMsg,
@@ -48,6 +47,13 @@ const AddActivity = ({
   };
 
   const [activity, setActivity] = useState(defaultActivity);
+
+  const addActivity = (uid: any, activity: any) => {
+    axios
+      .put(`/addActivity?uid=${uid}`, { activity })
+      .then(() => console.log("added activity!"))
+      .catch((error) => console.log(error));
+  };
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

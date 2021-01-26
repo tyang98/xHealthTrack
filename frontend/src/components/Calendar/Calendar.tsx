@@ -15,11 +15,6 @@ const Calendar = () => {
 
   const db = firebase.database();
 
-  const addActivity = (uid: string, activity: any) => {
-    const ref = db.ref().child(`users/${uid}/activities`);
-    ref.push(activity);
-  };
-
   const updateActivity = (uid: string, activity: any, activityKey: number) => {
     const ref = db.ref().child(`users/${uid}/activities/${activityKey}`);
     ref.update(activity);
@@ -170,7 +165,6 @@ const Calendar = () => {
                 Add activity on {selectedDay.month + 1}/{selectedDay.day}{" "}
               </h3>
               <AddActivity
-                addActivity={addActivity}
                 selectedDay={selectedDay}
                 setOpenSnackbar={setOpenSnackbar}
                 setSnackbarMsg={setSnackbarMsg}

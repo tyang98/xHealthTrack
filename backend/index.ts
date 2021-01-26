@@ -223,9 +223,10 @@ app.put("/addActivity", async (req, res) => {
   let userActivities = user.activities;
   const activity = req.body;
   userActivities.push(activity);
+  const updateActivities = { activities: userActivities }
   await usersCollection
     .doc(uid)
-    .update(userActivities)
+    .update(updateActivities)
     .catch((error) => console.log(error));
     res.send("Added!");
 })
