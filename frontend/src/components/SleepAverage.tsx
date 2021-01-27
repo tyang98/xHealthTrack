@@ -17,6 +17,7 @@ const BodyMassIndex = () => {
       label: "",
       alertClass: "",
     };
+
     if (sleep < 7) {
       sleepResults.label = "Too Little Sleep";
       sleepResults.alertClass = "alert-danger";
@@ -44,8 +45,6 @@ const BodyMassIndex = () => {
       tempItems.data.length;
     setAvgSleep(avg.toFixed(2));
     setResults(getSleepResults(parseFloat(avgSleep)));
-    console.log(results);
-    console.log(avgSleep);
   };
 
   useEffect(() => {

@@ -103,7 +103,7 @@ const SleepChart = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <ReactFC {...chartConfig} />;
 };
