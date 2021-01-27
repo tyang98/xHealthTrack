@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import cors from "cors";
 import path from 'path';
@@ -16,7 +15,7 @@ const db = admin.firestore();
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 const port = 8080;
 //const port = 8080;
