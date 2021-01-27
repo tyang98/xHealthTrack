@@ -22,9 +22,6 @@ Uses `React`, `Node.js`, and `Firebase` to make a health tracking web app.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
- <img src="./frontend/src/images/logo.png" alt="Logo" width="1000">
-
 xHealthTrack is health tracking web app that allows users to track their daily physical activity, weight, and sleep.
 
 Core features:
