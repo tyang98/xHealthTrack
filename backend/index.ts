@@ -3,6 +3,8 @@ import admin from "firebase-admin";
 import cors from "cors";
 import path from 'path';
 
+require('dotenv').config();
+
 // Path to wherever you put your service-account.json
 const serviceAccount = require("../backend/service-account.json");
 
