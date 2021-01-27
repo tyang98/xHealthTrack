@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import cors from "cors";
+import path from 'path';
 
 // Path to wherever you put your service-account.json
 const serviceAccount = require("../backend/service-account.json");
@@ -14,9 +15,10 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const app = express();
-app.use(bodyParser.json());
-const port = 8080;
 app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+const port = 8080;
 //const port = 8080;
 
 
