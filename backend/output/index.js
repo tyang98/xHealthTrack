@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
+require('dotenv').config();
 // Path to wherever you put your service-account.json
-const serviceAccount = require("../backend/service-account.json");
+const serviceAccount = require("./service-account.json");
 firebase_admin_1.default.initializeApp({
     credential: firebase_admin_1.default.credential.cert(serviceAccount),
     databaseURL: "firebase-adminsdk-nxhji@xhealtht.iam.gserviceaccount.com",
@@ -26,7 +26,7 @@ firebase_admin_1.default.initializeApp({
 const db = firebase_admin_1.default.firestore();
 const app = express_1.default();
 app.use(cors_1.default());
-app.use(body_parser_1.default.json());
+app.use(express_1.default.json());
 app.use(express_1.default.static(path_1.default.join(__dirname, '../frontend/build')));
 const port = 8080;
 const usersCollection = db.collection("users");
