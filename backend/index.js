@@ -18,7 +18,7 @@ const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
 require('dotenv').config();
 // Path to wherever you put your service-account.json
-const serviceAccount = require("./service-account.json");
+const serviceAccount = require("../backend/service-account.json");
 firebase_admin_1.default.initializeApp({
     credential: firebase_admin_1.default.credential.cert(serviceAccount),
     databaseURL: "firebase-adminsdk-nxhji@xhealtht.iam.gserviceaccount.com",
