@@ -157,19 +157,21 @@ app.get("/getSleepData", async (req, res) => {
   const userDoc = await usersCollection.doc(uid).get();
   const user = userDoc.data() as User;
   const data: any[] = [];
-  user.info.map((info) => {
-    let entry: any[] = [];
-    let dateString = "";
-    dateString += info.date.toDate().getMonth() + 1;
-    dateString += "/";
-    dateString += info.date.toDate().getDate();
-    dateString += "/";
-    dateString += info.date.toDate().getFullYear();
-    entry.push(dateString);
-    entry.push(info.sleep);
-    data.push(entry);
-    return { entry };
-  });
+  if (user.info !== null) {
+    user.info.map((info) => {
+      let entry: any[] = [];
+      let dateString = "";
+      dateString += info.date.toDate().getMonth() + 1;
+      dateString += "/";
+      dateString += info.date.toDate().getDate();
+      dateString += "/";
+      dateString += info.date.toDate().getFullYear();
+      entry.push(dateString);
+      entry.push(info.sleep);
+      data.push(entry);
+      return { entry };
+    });
+  }
   res.send(data);
 });
 
@@ -223,6 +225,7 @@ app.get("/getActivities", async (req, res) => {
       return { obj };
     }
   });
+  console.log(user.activities);
 
   res.send(data);
 })

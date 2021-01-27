@@ -31,21 +31,6 @@ const Authentication = () => {
   const [msg, setMsg] = useState("");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
-  // const onAuthStateChanged = () => {
-  //   return firebase.auth().onAuthStateChanged(async (currentUser) => {
-  //     if (currentUser !== null) {
-  //       const user = await axios.get<User>(`/getUser?uid=${currentUser.uid}`);
-  //       console.log(user.data.firstName);
-  //       setUser(user.data);
-  //     }
-  //     else {
-  //       setUser(null);
-  //     }
-  //   });
-  // }
-
-  // useEffect(() => onAuthStateChanged(), []);
-
   const register = (
     email: string,
     password: string,
@@ -86,22 +71,6 @@ const Authentication = () => {
       });
   };
 
-  const signout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setUser(null);
-        setMsg("Log Out Successful");
-        setSnackBarOpen(true);
-      })
-      .catch((error) => {
-        setMsg("Log Out failed");
-        console.log(error);
-        setSnackBarOpen(true);
-      });
-  };
-
   const login = (email: string, password: string) => {
     firebase
       .auth()
@@ -111,6 +80,7 @@ const Authentication = () => {
           const uid = userInfo.user?.uid;
           const user = await axios.get<User>(`/getUser?uid=${uid}`);
           setUser(user.data);
+          localStorage.setItem("user", JSON.stringify(userInfo.user));
         }
       })
       .catch((error) => {
@@ -132,6 +102,23 @@ const Authentication = () => {
       });
   };
 
+  const signout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        setUser(null);
+        localStorage.removeItem("user");
+        setMsg("Log Out Successful");
+        setSnackBarOpen(true);
+      })
+      .catch((error) => {
+        setMsg("Log Out failed");
+        console.log(error);
+        setSnackBarOpen(true);
+      });
+  };
+
   return (
     <div>
       <Switch>
@@ -139,7 +126,7 @@ const Authentication = () => {
           {user ? <Redirect to="/" /> : <Register callback={register} />}
         </Route>
         <Route path="/">
-          {user ? (
+          {localStorage.getItem("user") ? (
             <NavigationBar callback={signout} />
           ) : (
             <Login callback={login} />
