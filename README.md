@@ -29,8 +29,6 @@ Core features:
 * Calendar to record and track daily workouts. (Users can modify their exercises and physical activity).
 * We only store the data that is submitted by the user. Passwords are **not** stored in Firebase.
 
-<br />
-
 ### Built With
 * [React](https://reactjs.org/)
 * [NodeJS](https://nodejs.org/en/)
