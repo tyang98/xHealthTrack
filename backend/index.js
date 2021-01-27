@@ -28,7 +28,7 @@ const app = express_1.default();
 app.use(cors_1.default());
 app.use(express_1.default.json());
 app.use(express_1.default.static(path_1.default.join(__dirname, '../frontend/build')));
-const port = 8080;
+const port = process.env.PORT || 8080;
 const usersCollection = db.collection("users");
 //app.get('/', (_, res) => res.send('Hello World!'));
 app.post("/createUser", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
