@@ -5,7 +5,7 @@
 Uses `React`, `Node.js`, and `Firebase` to make a health tracking web app. 
 
 # Homepage
-![Imgur](https://i.imgur.com/hZQmPca.png)
+![Imgur](https://i.imgur.com/ibYiLKm.png)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
