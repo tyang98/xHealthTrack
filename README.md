@@ -40,8 +40,8 @@ Core features:
 ## Getting Started
 
 xHealthTrack is deployed with Heroku at the link:
-[xHealthTrack](https://media-rec.herokuapp.com/) <br />
-https://media-rec.herokuapp.com/
+[xHealthTrack](https://xhealthtrack.herokuapp.com/) <br />
+https://xhealthtrack.herokuapp.com/
 
 
 <!-- CONTRIBUTING -->
