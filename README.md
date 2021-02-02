@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg)
 
-Uses `React`, `Node.js`, and `Firebase` to make a health tracking web app. 
+Uses `React`, `TypeScript`, `Node.js`, and `Firebase` to make a health tracking web app. 
 
 # Homepage
 ![Imgur](https://i.imgur.com/ibYiLKm.png)
