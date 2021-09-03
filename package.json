@@ -4,7 +4,10 @@
   "scripts": {
     "heroku-postbuild": "yarn workspaces run build"
   },
-  "workspaces": ["backend", "frontend"],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
