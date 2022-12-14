@@ -9,7 +9,7 @@
     "@types/node": "^14.14.20",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase-admin": "^9.4.2",
     "heroku": "^7.47.11",
     "path": "^0.12.7",
